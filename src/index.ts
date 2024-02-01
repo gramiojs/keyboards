@@ -129,7 +129,7 @@ export class Keyboard {
 		this.currentRow.push(button);
 	}
 
-	private toJSON(): TelegramReplyKeyboardMarkup {
+	toJSON(): TelegramReplyKeyboardMarkup {
 		return {
 			keyboard: this.rows.concat(this.currentRow),
 			one_time_keyboard: this.isOneTime,

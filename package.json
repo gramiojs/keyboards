@@ -1,7 +1,16 @@
 {
     "name": "@gramio/keyboards",
-    "module": "src/index.ts",
-    "type": "module",
+    "version": "0.0.1",
+    "main": "dist/index.js",
+    "keywords": [
+        "gramio",
+        "telegram",
+        "telegram-keyboard",
+        "keyboard",
+        "inline-keyboard",
+        "keyboard-builder",
+        "telegram-bot-api"
+    ],
     "devDependencies": {
         "@gramio/types": "^7.0.6",
         "@types/bun": "latest",
@@ -13,5 +22,8 @@
         "@gramio/types": "^7.0.6",
         "inspectable": "^2.1.0",
         "reflect-metadata": "^0.2.1"
-    }
+    },
+    "files": [
+        "dist"
+    ]
 }
