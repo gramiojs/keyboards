@@ -6,11 +6,7 @@ import type {
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
 import { Inspectable } from "inspectable";
-import "reflect-metadata";
 
-@Inspectable<Keyboard>({
-	serialize: (keyboard) => keyboard.toJSON(),
-})
 export class Keyboard {
 	private rows: TelegramKeyboardButton[][] = [];
 
@@ -139,3 +135,7 @@ export class Keyboard {
 		};
 	}
 }
+
+Inspectable<Keyboard>({
+	serialize: (keyboard) => keyboard.toJSON(),
+});
