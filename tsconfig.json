@@ -13,6 +13,7 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
     "composite": true,
     "baseUrl": "./src",
     "rootDir": "./src",
