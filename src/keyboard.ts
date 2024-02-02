@@ -44,7 +44,7 @@ export class Keyboard {
 	requestUsers(
 		text: string,
 		requestId: number,
-		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id">,
+		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
 	) {
 		this.addButton({
 			text,
@@ -63,7 +63,10 @@ export class Keyboard {
 	requestChat(
 		text: string,
 		requestId: number,
-		options?: Omit<TelegramKeyboardButtonRequestChat, "request_id">,
+		options?: Omit<
+			TelegramKeyboardButtonRequestChat,
+			"request_id" | "chat_is_channel"
+		> & { chat_is_channel?: boolean },
 	) {
 		this.addButton({
 			text,
@@ -104,6 +107,8 @@ export class Keyboard {
 
 	/**
 	 * If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
+	 *
+	 * If *quiz* is passed, the user will be allowed to create only polls in the quiz mode. If *regular* is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
 	 */
 	requestPoll(text: string, type?: TelegramKeyboardButtonPollType["type"]) {
 		this.addButton({
@@ -190,6 +195,7 @@ export class Keyboard {
 			one_time_keyboard: this.options.isOneTime,
 			is_persistent: this.options.isPersistent,
 			input_field_placeholder: this.options.placeholder,
+			selective: this.options.isSelective,
 			resize_keyboard: this.options.isResized,
 		};
 	}
