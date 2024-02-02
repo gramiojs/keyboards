@@ -6,6 +6,7 @@ import type {
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
 import { Inspectable } from "inspectable";
+import "reflect-metadata";
 
 /**
  * **ReplyKeyboardMarkup** builder
@@ -185,7 +186,7 @@ export class Keyboard {
 	 */
 	toJSON(): TelegramReplyKeyboardMarkup {
 		return {
-			keyboard: this.rows.concat(this.currentRow),
+			keyboard: [...this.rows, this.currentRow],
 			one_time_keyboard: this.options.isOneTime,
 			is_persistent: this.options.isPersistent,
 			input_field_placeholder: this.options.placeholder,

@@ -146,7 +146,7 @@ export class InlineKeyboard {
 	 */
 	toJSON(): TelegramInlineKeyboardMarkup {
 		return {
-			inline_keyboard: this.rows.concat(this.currentRow),
+			inline_keyboard: [...this.rows, this.currentRow],
 		};
 	}
 }
