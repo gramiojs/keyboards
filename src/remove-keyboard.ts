@@ -1,6 +1,11 @@
 import { TelegramReplyKeyboardRemove } from "@gramio/types";
 import { Inspectable } from "inspectable";
 
+/**
+ * **ReplyKeyboardRemove** builder
+ *
+ * {@link https://core.telegram.org/bots/api/#replykeyboardremove | [Documentation]}
+ */
 @Inspectable<RemoveKeyboard>({
 	serialize: (keyboard) => keyboard.toJSON(),
 })

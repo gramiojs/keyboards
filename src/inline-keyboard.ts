@@ -7,6 +7,11 @@ import {
 } from "@gramio/types";
 import { Inspectable } from "inspectable";
 
+/**
+ * **InlineKeyboardMarkup** builder
+ *
+ * {@link https://core.telegram.org/bots/api/#inlinekeyboardmarkup | [Documentation]}
+ */
 @Inspectable<InlineKeyboard>({
 	serialize: (keyboard) => keyboard.toJSON(),
 })
