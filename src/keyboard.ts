@@ -6,7 +6,7 @@ import type {
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
 import { Inspectable } from "inspectable";
-import "reflect-metadata";
+import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
 /**
  * **ReplyKeyboardMarkup** builder
@@ -16,11 +16,7 @@ import "reflect-metadata";
 @Inspectable<Keyboard>({
 	serialize: (keyboard) => keyboard.toJSON(),
 })
-export class Keyboard {
-	private rows: TelegramKeyboardButton[][] = [];
-
-	private currentRow: TelegramKeyboardButton[] = [];
-
+export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	options = {
 		isOneTime: false,
 		isPersistent: false,
@@ -182,16 +178,12 @@ export class Keyboard {
 		return this;
 	}
 
-	private addButton(button: TelegramKeyboardButton) {
-		this.currentRow.push(button);
-	}
-
 	/**
 	 * Return {@link TelegramReplyKeyboardMarkup} as JSON
 	 */
 	toJSON(): TelegramReplyKeyboardMarkup {
 		return {
-			keyboard: [...this.rows, this.currentRow],
+			keyboard: this.keyboard,
 			one_time_keyboard: this.options.isOneTime,
 			is_persistent: this.options.isPersistent,
 			input_field_placeholder: this.options.placeholder,
