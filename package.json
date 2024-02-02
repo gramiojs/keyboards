@@ -1,9 +1,9 @@
 {
     "name": "@gramio/keyboards",
-    "version": "0.0.3",
+    "version": "0.0.5",
     "main": "dist/index.js",
     "scripts": {
-        "prepublishOnly": "rm -rf dist && tsc"
+        "prepublishOnly": "tsc"
     },
     "keywords": [
         "gramio",

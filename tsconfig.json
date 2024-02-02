@@ -4,7 +4,7 @@
     "target": "ESNext",
     "module": "NodeNext",
     "moduleDetection": "force",
-
+    "declaration": true,
     /* Bundler mode */
     "moduleResolution": "NodeNext",
     
