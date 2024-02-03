@@ -94,5 +94,7 @@ export class BaseKeyboardConstructor<T> {
 
 	protected addButton(button: T) {
 		this.currentRow.push(button);
+
+		return this;
 	}
 }
