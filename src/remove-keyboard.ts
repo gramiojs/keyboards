@@ -21,6 +21,8 @@ export class RemoveKeyboard {
 	 */
 	selective(isEnabled = true) {
 		this.options.isSelective = isEnabled;
+
+		return this;
 	}
 
 	/**
