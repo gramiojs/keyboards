@@ -11,14 +11,19 @@ function chunk<T>(array: T[][], size: number) {
 
 function customWrap<T>(
 	array: T[][],
-	fn: (button: T, index: number) => boolean,
+	fn: (options: {
+		button: T;
+		index: number;
+		row: T[];
+		rowIndex: number;
+	}) => boolean,
 ) {
 	const flatArray = array.flat();
 	const chunks = [];
 	let currentChunk = [];
 
 	for (const [index, button] of flatArray.entries()) {
-		if (fn(button, index)) {
+		if (fn({ button, index, row: currentChunk, rowIndex: chunks.length + 1 })) {
 			chunks.push(currentChunk);
 			currentChunk = [];
 		}
@@ -35,6 +40,7 @@ export class BaseKeyboardConstructor<T> {
 	private wrapOptions = {
 		columns: undefined as number | undefined,
 		fn: undefined as Parameters<typeof customWrap<T>>[1] | undefined,
+		pattern: undefined as number[] | undefined,
 	};
 
 	protected get keyboard() {
@@ -46,6 +52,7 @@ export class BaseKeyboardConstructor<T> {
 			keyboard = chunk(keyboard, this.wrapOptions.columns);
 		if (this.wrapOptions.fn)
 			keyboard = customWrap(keyboard, this.wrapOptions.fn);
+		if (this.wrapOptions.pattern) keyboard = [];
 
 		return keyboard;
 	}
@@ -67,6 +74,12 @@ export class BaseKeyboardConstructor<T> {
 
 	public wrap(fn?: Parameters<typeof customWrap<T>>[1]) {
 		this.wrapOptions.fn = fn;
+
+		return this;
+	}
+
+	public pattern(pattern?: number[]) {
+		this.wrapOptions.pattern = pattern;
 
 		return this;
 	}

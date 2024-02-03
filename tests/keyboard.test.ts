@@ -39,7 +39,7 @@ describe("Keyboard", () => {
 
 	test("Keyboard with wrap fn", () => {
 		const { keyboard } = new Keyboard()
-			.wrap((button) => button.text === "3")
+			.wrap(({ button }) => button.text === "3")
 			.text("1")
 			.text("2")
 			.text("3")
