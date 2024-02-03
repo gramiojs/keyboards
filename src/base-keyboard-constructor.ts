@@ -92,8 +92,8 @@ export class BaseKeyboardConstructor<T> {
 		return this;
 	}
 
-	protected addButton(button: T) {
-		this.currentRow.push(button);
+	add(...buttons: T[]) {
+		this.currentRow.push(...buttons);
 
 		return this;
 	}

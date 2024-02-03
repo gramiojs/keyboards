@@ -21,7 +21,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * Text button with data to be sent in a [callback query](https://core.telegram.org/bots/api/#callbackquery) to the bot when button is pressed, 1-64 bytes
 	 */
 	text(text: string, payload?: string | Record<string, unknown>) {
-		return this.addButton({
+		return this.add({
 			text,
 			callback_data:
 				typeof payload === "object" ? JSON.stringify(payload) : payload,
@@ -32,7 +32,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * HTTP or tg:// URL to be opened when the button is pressed. Links `tg://user?id=<user_id>` can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
 	 */
 	url(text: string, url: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			url,
 		});
@@ -42,7 +42,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *  Description of the [Web App](https://core.telegram.org/bots/webapps) that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method [answerWebAppQuery](https://core.telegram.org/bots/api/#answerwebappquery). Available only in private chats between a user and the bot.
 	 */
 	webApp(text: string, url: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			web_app: { url },
 		});
@@ -52,7 +52,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * An HTTPS URL used to automatically authorize the user. Can be used as a replacement for the [Telegram Login Widget](https://core.telegram.org/widgets/login).
 	 */
 	login(text: string, url: string | TelegramLoginUrl) {
-		return this.addButton({
+		return this.add({
 			text,
 			login_url: typeof url === "string" ? { url } : url,
 		});
@@ -64,7 +64,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * **NOTE:** This type of button **must** always be the first button in the first row and can only be used in invoice messages.
 	 */
 	pay(text: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			pay: true,
 		});
@@ -76,7 +76,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * By default empty, in which case just the bot's username will be inserted.
 	 */
 	switchToChat(text: string, query = "") {
-		return this.addButton({
+		return this.add({
 			text,
 			switch_inline_query: query,
 		});
@@ -89,7 +89,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		text: string,
 		query: string | TelegramSwitchInlineQueryChosenChat = "",
 	) {
-		return this.addButton({
+		return this.add({
 			text,
 			switch_inline_query_chosen_chat:
 				typeof query === "string" ? { query } : query,
@@ -102,7 +102,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * This offers a quick way for the user to open your bot in inline mode in the same chat - good for selecting something from multiple options.
 	 */
 	switchToCurrentChat(text: string, query = "") {
-		return this.addButton({ text, switch_inline_query_current_chat: query });
+		return this.add({ text, switch_inline_query_current_chat: query });
 	}
 
 	/**
@@ -113,7 +113,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * **NOTE:** This type of button **must** always be the first button in the first row.
 	 */
 	game(text: string, gameOptions: TelegramCallbackGame = {}) {
-		return this.addButton({
+		return this.add({
 			text,
 			callback_game: gameOptions,
 		});

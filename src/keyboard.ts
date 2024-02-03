@@ -29,7 +29,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * Text of the button. It will be sent as a message when the button is pressed
 	 */
 	text(text: string) {
-		return this.addButton({ text });
+		return this.add({ text });
 	}
 
 	/**
@@ -40,7 +40,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
 	) {
-		return this.addButton({
+		return this.add({
 			text,
 			request_users: {
 				...options,
@@ -60,7 +60,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			"request_id" | "chat_is_channel"
 		> & { chat_is_channel?: boolean },
 	) {
-		return this.addButton({
+		return this.add({
 			text,
 			request_chat: {
 				// [INFO] Why not false by default?
@@ -75,7 +75,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * If *True*, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
 	 */
 	requestContact(text: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			request_contact: true,
 		});
@@ -85,7 +85,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * If *True*, the user's current location will be sent when the button is pressed. Available in private chats only.
 	 */
 	requestLocation(text: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			request_location: true,
 		});
@@ -97,7 +97,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * If *quiz* is passed, the user will be allowed to create only polls in the quiz mode. If *regular* is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
 	 */
 	requestPoll(text: string, type?: TelegramKeyboardButtonPollType["type"]) {
-		return this.addButton({
+		return this.add({
 			text,
 			request_poll: {
 				type,
@@ -109,7 +109,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * If specified, the described [Web App](https://core.telegram.org/bots/webapps) will be launched when the button is pressed. The Web App will be able to send a “web\_app\_data” service message. Available in private chats only.
 	 */
 	webApp(text: string, url: string) {
-		return this.addButton({
+		return this.add({
 			text,
 			web_app: {
 				url,
