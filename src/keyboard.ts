@@ -29,7 +29,14 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * Text of the button. It will be sent as a message when the button is pressed
 	 */
 	text(text: string) {
-		return this.add({ text });
+		return this.add(Keyboard.text(text));
+	}
+
+	/**
+	 * Text of the button. It will be sent as a message when the button is pressed
+	 */
+	static text(text: string): TelegramKeyboardButton {
+		return { text };
 	}
 
 	/**
@@ -40,13 +47,24 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
 	) {
-		return this.add({
+		return this.add(Keyboard.requestUsers(text, requestId, options));
+	}
+
+	/**
+	 * If specified, pressing the button will open a list of suitable users. Identifiers of selected users will be sent to the bot in a “users\_shared” service message. Available in private chats only.
+	 */
+	static requestUsers(
+		text: string,
+		requestId: number,
+		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
+	): TelegramKeyboardButton {
+		return {
 			text,
 			request_users: {
 				...options,
 				request_id: requestId,
 			},
-		});
+		};
 	}
 
 	/**
@@ -60,7 +78,21 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			"request_id" | "chat_is_channel"
 		> & { chat_is_channel?: boolean },
 	) {
-		return this.add({
+		return this.add(Keyboard.requestChat(text, requestId, options));
+	}
+
+	/**
+	 * If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send its identifier to the bot in a “chat\_shared” service message. Available in private chats only.
+	 */
+	static requestChat(
+		text: string,
+		requestId: number,
+		options?: Omit<
+			TelegramKeyboardButtonRequestChat,
+			"request_id" | "chat_is_channel"
+		> & { chat_is_channel?: boolean },
+	): TelegramKeyboardButton {
+		return {
 			text,
 			request_chat: {
 				// [INFO] Why not false by default?
@@ -68,27 +100,41 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 				...options,
 				request_id: requestId,
 			},
-		});
+		};
 	}
 
 	/**
 	 * If *True*, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
 	 */
 	requestContact(text: string) {
-		return this.add({
+		return this.add(Keyboard.requestContact(text));
+	}
+
+	/**
+	 * If *True*, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
+	 */
+	static requestContact(text: string): TelegramKeyboardButton {
+		return {
 			text,
 			request_contact: true,
-		});
+		};
 	}
 
 	/**
 	 * If *True*, the user's current location will be sent when the button is pressed. Available in private chats only.
 	 */
 	requestLocation(text: string) {
-		return this.add({
+		return this.add(Keyboard.requestLocation(text));
+	}
+
+	/**
+	 * If *True*, the user's current location will be sent when the button is pressed. Available in private chats only.
+	 */
+	static requestLocation(text: string): TelegramKeyboardButton {
+		return {
 			text,
 			request_location: true,
-		});
+		};
 	}
 
 	/**
@@ -97,24 +143,43 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * If *quiz* is passed, the user will be allowed to create only polls in the quiz mode. If *regular* is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
 	 */
 	requestPoll(text: string, type?: TelegramKeyboardButtonPollType["type"]) {
-		return this.add({
+		return this.add(Keyboard.requestPoll(text, type));
+	}
+
+	/**
+	 * If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only.
+	 *
+	 * If *quiz* is passed, the user will be allowed to create only polls in the quiz mode. If *regular* is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
+	 */
+	static requestPoll(
+		text: string,
+		type?: TelegramKeyboardButtonPollType["type"],
+	): TelegramKeyboardButton {
+		return {
 			text,
 			request_poll: {
 				type,
 			},
-		});
+		};
 	}
 
 	/**
 	 * If specified, the described [Web App](https://core.telegram.org/bots/webapps) will be launched when the button is pressed. The Web App will be able to send a “web\_app\_data” service message. Available in private chats only.
 	 */
 	webApp(text: string, url: string) {
-		return this.add({
+		return this.add(Keyboard.webApp(text, url));
+	}
+
+	/**
+	 * If specified, the described [Web App](https://core.telegram.org/bots/webapps) will be launched when the button is pressed. The Web App will be able to send a “web\_app\_data” service message. Available in private chats only.
+	 */
+	static webApp(text: string, url: string): TelegramKeyboardButton {
+		return {
 			text,
 			web_app: {
 				url,
 			},
-		});
+		};
 	}
 
 	/**
