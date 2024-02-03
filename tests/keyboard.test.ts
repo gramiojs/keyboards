@@ -4,7 +4,7 @@ import { Keyboard } from "../src";
 describe("Keyboard", () => {
 	test("Simple keyboard", () => {
 		expect(new Keyboard().toJSON()).toEqual({
-			keyboard: [[]],
+			keyboard: [],
 			one_time_keyboard: false,
 			is_persistent: false,
 			resize_keyboard: true,
@@ -16,6 +16,29 @@ describe("Keyboard", () => {
 		const { keyboard } = new Keyboard().text("test text").toJSON();
 
 		expect(keyboard).toEqual([[{ text: "test text" }]]);
+	});
+
+	test("Keyboard with row", () => {
+		const { keyboard } = new Keyboard()
+			.row()
+			.text("test text")
+			.row()
+			.row()
+			.text("test")
+			.row()
+			.toJSON();
+
+		expect(keyboard).toEqual([[{ text: "test text" }], [{ text: "test" }]]);
+	});
+
+	test("Keyboard with wrap columns", () => {
+		const { keyboard } = new Keyboard()
+			.text("test text")
+			.text("test")
+			.wrap({ columns: 1 })
+			.toJSON();
+
+		expect(keyboard).toEqual([[{ text: "test text" }], [{ text: "test" }]]);
 	});
 
 	test("Keyboard with webApp", () => {
