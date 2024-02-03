@@ -52,6 +52,23 @@ describe("Keyboard", () => {
 		]);
 	});
 
+	test("Keyboard with add", () => {
+		const labels = ["test", "test2"];
+
+		const { keyboard } = new Keyboard()
+			.pattern([1, 2, 1])
+			.text("page 1")
+			.add(...labels.map((x) => Keyboard.text(x)))
+			.text("next page")
+			.toJSON();
+
+		expect(keyboard).toEqual([
+			[{ text: "page 1" }],
+			[{ text: "test" }, { text: "test2" }],
+			[{ text: "next page" }],
+		]);
+	});
+
 	test("Keyboard with pattern", () => {
 		const { keyboard } = new Keyboard()
 			.pattern([1, 3, 2])
