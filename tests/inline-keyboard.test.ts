@@ -27,6 +27,19 @@ describe("InlineKeyboard", () => {
 		]);
 	});
 
+	test("with filter", () => {
+		const { inline_keyboard } = new InlineKeyboard()
+			.text("gramio", "test")
+			.row()
+			.text("gramio")
+			.filter(({ button }) => button.callback_data !== "test")
+			.toJSON();
+
+		expect(inline_keyboard).toEqual([
+			[{ text: "gramio", callback_data: undefined }],
+		]);
+	});
+
 	test("with all types of inline keyboard", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.columns(1)

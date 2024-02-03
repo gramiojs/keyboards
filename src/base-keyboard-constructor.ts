@@ -9,15 +9,14 @@ function chunk<T>(array: T[][], size: number) {
 	return chunks;
 }
 
-function customWrap<T>(
-	array: T[][],
-	fn: (options: {
-		button: T;
-		index: number;
-		row: T[];
-		rowIndex: number;
-	}) => boolean,
-) {
+type ButtonsIterator<T> = (options: {
+	button: T;
+	index: number;
+	row: T[];
+	rowIndex: number;
+}) => boolean;
+
+function customWrap<T>(array: T[][], fn: ButtonsIterator<T>) {
 	const flatArray = array.flat();
 	const chunks = [];
 	let currentChunk = [];
@@ -40,13 +39,28 @@ function pattern<T>(array: T[][], pattern: number[]) {
 	);
 }
 
+function filter<T>(array: T[][], fn: ButtonsIterator<T>) {
+	const chunks = [];
+
+	for (const [rowIndex, row] of array.entries()) {
+		const filtered = row.filter((button, index) =>
+			fn({ button, index, row, rowIndex }),
+		);
+
+		if (filtered.length) chunks.push(filtered);
+	}
+
+	return chunks;
+}
+
 export class BaseKeyboardConstructor<T> {
 	protected rows: T[][] = [];
 	protected currentRow: T[] = [];
 
 	private wrapOptions = {
 		columns: undefined as number | undefined,
-		fn: undefined as Parameters<typeof customWrap<T>>[1] | undefined,
+		fn: undefined as ButtonsIterator<T> | undefined,
+		filter: undefined as ButtonsIterator<T> | undefined,
 		pattern: undefined as number[] | undefined,
 	};
 
@@ -61,6 +75,8 @@ export class BaseKeyboardConstructor<T> {
 			keyboard = customWrap(keyboard, this.wrapOptions.fn);
 		if (this.wrapOptions.pattern)
 			keyboard = pattern(keyboard, this.wrapOptions.pattern);
+		if (this.wrapOptions.filter)
+			keyboard = filter(keyboard, this.wrapOptions.filter);
 
 		return keyboard;
 	}
@@ -80,8 +96,14 @@ export class BaseKeyboardConstructor<T> {
 		return this;
 	}
 
-	public wrap(fn?: Parameters<typeof customWrap<T>>[1]) {
+	public wrap(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.fn = fn;
+
+		return this;
+	}
+
+	public filter(fn?: ButtonsIterator<T>) {
+		this.wrapOptions.filter = fn;
 
 		return this;
 	}
