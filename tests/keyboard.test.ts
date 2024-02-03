@@ -32,13 +32,24 @@ describe("Keyboard", () => {
 	});
 
 	test("Keyboard with wrap columns", () => {
+		const { keyboard } = new Keyboard().columns(1).text("1").text("2").toJSON();
+
+		expect(keyboard).toEqual([[{ text: "1" }], [{ text: "2" }]]);
+	});
+
+	test("Keyboard with wrap fn", () => {
 		const { keyboard } = new Keyboard()
-			.text("test text")
-			.text("test")
-			.wrap({ columns: 1 })
+			.wrap((button) => button.text === "3")
+			.text("1")
+			.text("2")
+			.text("3")
+			.text("4")
 			.toJSON();
 
-		expect(keyboard).toEqual([[{ text: "test text" }], [{ text: "test" }]]);
+		expect(keyboard).toEqual([
+			[{ text: "1" }, { text: "2" }],
+			[{ text: "3" }, { text: "4" }],
+		]);
 	});
 
 	test("Keyboard with webApp", () => {

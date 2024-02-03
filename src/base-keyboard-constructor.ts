@@ -1,12 +1,31 @@
 function chunk<T>(array: T[][], size: number) {
 	const flatArray = array.flat();
-	const chunk = [];
+	const chunks = [];
 
 	for (let i = 0; i < flatArray.length; i += size) {
-		chunk.push(flatArray.slice(i, i + size));
+		chunks.push(flatArray.slice(i, i + size));
 	}
 
-	return chunk;
+	return chunks;
+}
+
+function customWrap<T>(
+	array: T[][],
+	fn: (button: T, index: number) => boolean,
+) {
+	const flatArray = array.flat();
+	const chunks = [];
+	let currentChunk = [];
+
+	for (const [index, button] of flatArray.entries()) {
+		if (fn(button, index)) {
+			chunks.push(currentChunk);
+			currentChunk = [];
+		}
+		currentChunk.push(button);
+	}
+
+	return currentChunk.length ? [...chunks, currentChunk] : chunks;
 }
 
 export class BaseKeyboardConstructor<T> {
@@ -15,6 +34,7 @@ export class BaseKeyboardConstructor<T> {
 
 	private wrapOptions = {
 		columns: undefined as number | undefined,
+		fn: undefined as Parameters<typeof customWrap<T>>[1] | undefined,
 	};
 
 	protected get keyboard() {
@@ -24,6 +44,8 @@ export class BaseKeyboardConstructor<T> {
 
 		if (this.wrapOptions.columns)
 			keyboard = chunk(keyboard, this.wrapOptions.columns);
+		if (this.wrapOptions.fn)
+			keyboard = customWrap(keyboard, this.wrapOptions.fn);
 
 		return keyboard;
 	}
@@ -37,8 +59,14 @@ export class BaseKeyboardConstructor<T> {
 		return this;
 	}
 
-	public wrap({ columns }: { columns: number }) {
-		this.wrapOptions.columns = columns;
+	public columns(length?: number) {
+		this.wrapOptions.columns = length;
+
+		return this;
+	}
+
+	public wrap(fn?: Parameters<typeof customWrap<T>>[1]) {
+		this.wrapOptions.fn = fn;
 
 		return this;
 	}
