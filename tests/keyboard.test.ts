@@ -52,6 +52,24 @@ describe("Keyboard", () => {
 		]);
 	});
 
+	test("Keyboard with pattern", () => {
+		const { keyboard } = new Keyboard()
+			.pattern([1, 3, 2])
+			.text("1")
+			.text("2")
+			.text("3")
+			.text("4")
+			.text("5")
+			.text("6")
+			.toJSON();
+
+		expect(keyboard).toEqual([
+			[{ text: "1" }],
+			[{ text: "2" }, { text: "3" }, { text: "4" }],
+			[{ text: "5" }, { text: "6" }],
+		]);
+	});
+
 	test("Keyboard with webApp", () => {
 		const { keyboard } = new Keyboard()
 			.webApp("test text", "https://")

@@ -23,7 +23,7 @@ function customWrap<T>(
 	let currentChunk = [];
 
 	for (const [index, button] of flatArray.entries()) {
-		if (fn({ button, index, row: currentChunk, rowIndex: chunks.length + 1 })) {
+		if (fn({ button, index, row: currentChunk, rowIndex: chunks.length })) {
 			chunks.push(currentChunk);
 			currentChunk = [];
 		}
@@ -31,6 +31,13 @@ function customWrap<T>(
 	}
 
 	return currentChunk.length ? [...chunks, currentChunk] : chunks;
+}
+
+function pattern<T>(array: T[][], pattern: number[]) {
+	return customWrap(
+		array,
+		({ row, rowIndex }) => row.length === pattern[rowIndex],
+	);
 }
 
 export class BaseKeyboardConstructor<T> {
@@ -52,7 +59,8 @@ export class BaseKeyboardConstructor<T> {
 			keyboard = chunk(keyboard, this.wrapOptions.columns);
 		if (this.wrapOptions.fn)
 			keyboard = customWrap(keyboard, this.wrapOptions.fn);
-		if (this.wrapOptions.pattern) keyboard = [];
+		if (this.wrapOptions.pattern)
+			keyboard = pattern(keyboard, this.wrapOptions.pattern);
 
 		return keyboard;
 	}
