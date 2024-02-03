@@ -98,6 +98,11 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * **NOTE:** This type of button **must** always be the first button in the first row and can only be used in invoice messages.
 	 */
 	pay(text: string) {
+		if (this.rows.length || this.currentRow.length)
+			throw new Error(
+				"This type of button **must** always be the first button in the first row and can only be used in invoice messages.",
+			);
+
 		return this.add(InlineKeyboard.pay(text));
 	}
 
@@ -187,6 +192,11 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * **NOTE:** This type of button **must** always be the first button in the first row.
 	 */
 	game(text: string, gameOptions: TelegramCallbackGame = {}) {
+		if (this.rows.length || this.currentRow.length)
+			throw new Error(
+				"This type of button **must** always be the first button in the first row.",
+			);
+
 		return this.add(InlineKeyboard.game(text, gameOptions));
 	}
 
