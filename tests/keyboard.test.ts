@@ -7,7 +7,7 @@ describe("Keyboard", () => {
 			keyboard: [[]],
 			one_time_keyboard: false,
 			is_persistent: false,
-			resize_keyboard: false,
+			resize_keyboard: true,
 			selective: false,
 		});
 	});

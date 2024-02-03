@@ -20,7 +20,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	options = {
 		isOneTime: false,
 		isPersistent: false,
-		isResized: false,
+		isResized: true,
 		isSelective: false,
 		placeholder: undefined as string | undefined,
 	};
@@ -159,6 +159,8 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	}
 
 	/**
+	 * !**Note** Keyboard is resized by default! For disable it you can use `.resized(false)`
+	 *
 	 * Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to *false*, in which case the custom keyboard is always of the same height as the app's standard keyboard.
 	 */
 	resized(isEnabled = true) {
