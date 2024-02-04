@@ -11,6 +11,8 @@ import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 /**
  * **InlineKeyboardMarkup** builder
  *
+ * This object represents an [inline keyboard](https://core.telegram.org/bots/features#inline-keyboards) that appears right next to the message it belongs to.
+ *
  * {@link https://core.telegram.org/bots/api/#inlinekeyboardmarkup | [Documentation]}
  */
 @Inspectable<InlineKeyboard>({
@@ -100,7 +102,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	pay(text: string) {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
-				"This type of button **must** always be the first button in the first row and can only be used in invoice messages.",
+				"This type of button must always be the first button in the first row and can only be used in invoice messages.",
 			);
 
 		return this.add(InlineKeyboard.pay(text));
@@ -119,7 +121,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	}
 
 	/**
-	 * If set, pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field.
+	 * Pressing the button will prompt the user to select one of their chats, open that chat and insert the bot's username and the specified inline query in the input field.
 	 *
 	 * By default empty, in which case just the bot's username will be inserted.
 	 */
@@ -194,7 +196,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	game(text: string, gameOptions: TelegramCallbackGame = {}) {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
-				"This type of button **must** always be the first button in the first row.",
+				"This type of button must always be the first button in the first row.",
 			);
 
 		return this.add(InlineKeyboard.game(text, gameOptions));
