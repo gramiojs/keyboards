@@ -22,7 +22,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	/**
 	 * Text button with data to be sent in a [callback query](https://core.telegram.org/bots/api/#callbackquery) to the bot when button is pressed, 1-64 bytes
 	 */
-	text(text: string, payload?: string | Record<string, unknown>) {
+	text(text: string, payload: string | Record<string, unknown>) {
 		return this.add(InlineKeyboard.text(text, payload));
 	}
 
@@ -31,7 +31,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 */
 	static text(
 		text: string,
-		payload?: string | Record<string, unknown>,
+		payload: string | Record<string, unknown>,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
