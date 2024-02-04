@@ -192,7 +192,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	}
 
 	/**
-	 * *Optional*. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to *false*, in which case the custom keyboard can be hidden and opened with a keyboard icon.
+	 * Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to *false*, in which case the custom keyboard can be hidden and opened with a keyboard icon.
 	 */
 	persistent(isEnabled = true) {
 		this.options.isPersistent = isEnabled;

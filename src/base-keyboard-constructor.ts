@@ -81,6 +81,9 @@ export class BaseKeyboardConstructor<T> {
 		return keyboard;
 	}
 
+	/**
+	 * Adds a `line break`. Call this method to make sure that the next added buttons will be on a new row.
+	 */
 	public row() {
 		if (!this.currentRow.length) return this;
 
@@ -90,30 +93,45 @@ export class BaseKeyboardConstructor<T> {
 		return this;
 	}
 
+	/**
+	 * Allows you to limit the number of columns in the keyboard.
+	 */
 	public columns(length?: number) {
 		this.wrapOptions.columns = length;
 
 		return this;
 	}
 
+	/**
+	 * A custom handler that controls row wrapping.
+	 */
 	public wrap(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.fn = fn;
 
 		return this;
 	}
 
+	/**
+	 * A handler that helps filter keyboard buttons
+	 */
 	public filter(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.filter = fn;
 
 		return this;
 	}
 
+	/**
+	 * An array with the number of columns per row. Allows you to set a "template"
+	 */
 	public pattern(pattern?: number[]) {
 		this.wrapOptions.pattern = pattern;
 
 		return this;
 	}
 
+	/**
+	 * Allows you to add multiple buttons in raw format.
+	 */
 	add(...buttons: T[]) {
 		this.currentRow.push(...buttons);
 
