@@ -1,3 +1,6 @@
+//@ts-nocheck
+//![INFO] Some hack for solve grammy union type problem
+//TODO: maybe find better way?
 import { describe, expect, test } from "bun:test";
 import { InlineKeyboard } from "../src";
 
@@ -37,6 +40,28 @@ describe("InlineKeyboard", () => {
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "gramio", callback_data: undefined }],
+		]);
+	});
+
+	test("matrix", () => {
+		const { inline_keyboard } = new InlineKeyboard()
+			.matrix(2, 2, ({ rowIndex, index }) =>
+				InlineKeyboard.text(
+					rowIndex === 1 && index === 0 ? "💣" : "ㅤ",
+					"payload",
+				),
+			)
+			.toJSON();
+
+		expect(inline_keyboard).toEqual([
+			[
+				{ text: "ㅤ", callback_data: "payload" },
+				{ text: "ㅤ", callback_data: "payload" },
+			],
+			[
+				{ text: "💣", callback_data: "payload" },
+				{ text: "ㅤ", callback_data: "payload" },
+			],
 		]);
 	});
 

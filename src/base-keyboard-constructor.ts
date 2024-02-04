@@ -16,6 +16,11 @@ type ButtonsIterator<T> = (options: {
 	rowIndex: number;
 }) => boolean;
 
+type CreateButtonIterator<T> = (options: {
+	index: number;
+	rowIndex: number;
+}) => T;
+
 function customWrap<T>(array: T[][], fn: ButtonsIterator<T>) {
 	const flatArray = array.flat();
 	const chunks = [];
@@ -132,8 +137,26 @@ export class BaseKeyboardConstructor<T> {
 	/**
 	 * Allows you to add multiple buttons in raw format.
 	 */
-	add(...buttons: T[]) {
+	public add(...buttons: T[]) {
 		this.currentRow.push(...buttons);
+
+		return this;
+	}
+
+	/**
+	 * Allows you to create a button matrix.
+	 */
+	public matrix(rows: number, columns: number, fn: CreateButtonIterator<T>) {
+		this.row();
+
+		for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+			this.add(
+				//TODO: maybe add row property to iterator?
+				...[...new Array(columns)].map((_, index) => fn({ rowIndex, index })),
+			);
+
+			this.row();
+		}
 
 		return this;
 	}
