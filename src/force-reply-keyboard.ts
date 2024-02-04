@@ -19,6 +19,11 @@ export class ForceReplyKeyboard {
 
 	/**
 	 * Use this parameter if you want to force reply from specific users only. Targets: 1) users that are \@mentioned in the *text* of the [Message](https://core.telegram.org/bots/api/#message) object; 2) if the bot's message is a reply to a message in the same chat and forum topic, sender of the original message.
+	 * @example
+	 * ```ts
+	 * new ForceReplyKeyboard().selective(); // to enable
+	 * new ForceReplyKeyboard().selective(false); // to disable
+	 * ```
 	 */
 	selective(isEnabled = true) {
 		this.options.isSelective = isEnabled;
@@ -28,8 +33,13 @@ export class ForceReplyKeyboard {
 
 	/**
 	 * The placeholder to be shown in the input field when the reply is active; 1-64 characters
+	 * @example
+	 * ```ts
+	 * new Keyboard().placeholder("some text"); // to enable
+	 * new Keyboard().placeholder(); // to disable
+	 * ```
 	 */
-	placeholder(value: string) {
+	placeholder(value?: string) {
 		this.options.placeholder = value;
 
 		return this;
