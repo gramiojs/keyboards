@@ -34,12 +34,24 @@ describe("InlineKeyboard", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.text("gramio", "test")
 			.row()
-			.text("gramio")
+			.text("gramio", "other")
 			.filter(({ button }) => button.callback_data !== "test")
 			.toJSON();
 
 		expect(inline_keyboard).toEqual([
-			[{ text: "gramio", callback_data: undefined }],
+			[{ text: "gramio", callback_data: "other" }],
+		]);
+	});
+
+	test("with addIf", () => {
+		const { inline_keyboard } = new InlineKeyboard()
+			.text("gramio", "test")
+			.row()
+			.addIf(1 === 2, InlineKeyboard.text("test", "gramio"))
+			.toJSON();
+
+		expect(inline_keyboard).toEqual([
+			[{ text: "gramio", callback_data: "test" }],
 		]);
 	});
 

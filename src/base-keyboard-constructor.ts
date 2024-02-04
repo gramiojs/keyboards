@@ -195,6 +195,45 @@ export class BaseKeyboardConstructor<T> {
 	}
 
 	/**
+	 * Allows you to dynamically substitute buttons depending on something
+	 * @example
+	 * ```ts
+	 * const labels = ["some", "buttons"];
+	 * const isAdmin = true;
+	 *
+	 * new InlineKeyboard()
+	 *     .addIf(1 === 2, { text: "raw button", callback_data: "payload" })
+	 *     .addIf(
+	 *         isAdmin,
+	 *         InlineKeyboard.text("raw button by InlineKeyboard.text", "payload")
+	 *     )
+	 *     .addIf(
+	 *         ({ index, rowIndex }) => rowIndex === index,
+	 *         ...labels.map((x) => InlineKeyboard.text(x, `${x}payload`))
+	 *     );
+	 * ```
+	 */
+
+	public addIf(
+		condition: (options: { rowIndex: number; index: number }) =>
+			| boolean
+			| boolean,
+		...buttons: T[]
+	) {
+		const isShow =
+			typeof condition === "boolean"
+				? condition
+				: condition({
+						rowIndex: this.rows.length - 1,
+						index: this.currentRow.length - 1,
+				  });
+
+		if (isShow) this.currentRow.push(...buttons);
+
+		return this;
+	}
+
+	/**
 	 * Allows you to create a button matrix.
 	 * @example
 	 * ```ts
