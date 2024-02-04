@@ -222,9 +222,15 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	/**
 	 * Return {@link TelegramInlineKeyboardMarkup} as JSON
 	 */
-	toJSON(): TelegramInlineKeyboardMarkup {
+	toJSON(): {
+		//![INFO] Some hack for solve grammy union type problem
+		//TODO: maybe find better way?
+		inline_keyboard: (TelegramInlineKeyboardButton & { pay: boolean })[][];
+	} {
 		return {
-			inline_keyboard: this.keyboard,
+			inline_keyboard: this.keyboard as (TelegramInlineKeyboardButton & {
+				pay: boolean;
+			})[][],
 		};
 	}
 }
