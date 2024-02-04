@@ -147,6 +147,9 @@ export class BaseKeyboardConstructor<T> {
 	 * Allows you to create a button matrix.
 	 */
 	public matrix(rows: number, columns: number, fn: CreateButtonIterator<T>) {
+		if (rows < 1 || columns < 1)
+			throw new Error("The number of rows and columns must be greater than 0");
+
 		this.row();
 
 		for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
