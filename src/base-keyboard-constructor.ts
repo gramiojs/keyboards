@@ -88,6 +88,13 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * Adds a `line break`. Call this method to make sure that the next added buttons will be on a new row.
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 *     .text("first row", "payload")
+	 *     .row()
+	 *     .text("second row", "payload");
+	 * ```
 	 */
 	public row() {
 		if (!this.currentRow.length) return this;
@@ -100,6 +107,14 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * Allows you to limit the number of columns in the keyboard.
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 *     .columns(1)
+	 *     .text("first row", "payload")
+	 *     .text("second row", "payload");
+	 *     .text("third row", "payload");
+	 * ```
 	 */
 	public columns(length?: number) {
 		this.wrapOptions.columns = length;
@@ -109,6 +124,14 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * A custom handler that controls row wrapping.
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 *     .wrap(({ button }) => button.callback_data === "2")
+	 *     .text("first row", "1")
+	 *     .text("first row", "1");
+	 *     .text("second row", "2");
+	 * ```
 	 */
 	public wrap(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.fn = fn;
@@ -118,6 +141,14 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * A handler that helps filter keyboard buttons
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 *     .filter(({ button }) => button.callback_data !== "hidden")
+	 *     .text("button", "pass")
+	 *     .text("button", "hidden")
+	 *     .text("button", "pass");
+	 * ```
 	 */
 	public filter(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.filter = fn;
@@ -127,6 +158,17 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * An array with the number of columns per row. Allows you to set a "template"
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 *     .pattern([1, 3, 2])
+	 *     .text("1", "payload")
+	 *     .text("2", "payload")
+	 *     .text("2", "payload")
+	 *     .text("2", "payload")
+	 *     .text("3", "payload")
+	 *     .text("3", "payload");
+	 * ```
 	 */
 	public pattern(pattern?: number[]) {
 		this.wrapOptions.pattern = pattern;
@@ -136,6 +178,15 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * Allows you to add multiple buttons in raw format.
+	 * @example
+	 * ```ts
+	 * const labels = ["some", "buttons"];
+	 *
+	 * new InlineKeyboard()
+	 *     .add({ text: "raw button", callback_data: "payload" })
+	 *     .add(InlineKeyboard.text("raw button by InlineKeyboard.text", "payload"))
+	 *     .add(...labels.map((x) => InlineKeyboard.text(x, `${x}payload`)));
+	 * ```
 	 */
 	public add(...buttons: T[]) {
 		this.currentRow.push(...buttons);
@@ -145,6 +196,19 @@ export class BaseKeyboardConstructor<T> {
 
 	/**
 	 * Allows you to create a button matrix.
+	 * @example
+	 * ```ts
+	 * import { randomInt } from "node:crypto";
+	 *
+	 * const bomb = [randomInt(0, 9), randomInt(0, 9)] as const;
+	 *
+	 * new InlineKeyboard().matrix(10, 10, ({ rowIndex, index }) =>
+	 *    InlineKeyboard.text(
+	 *        rowIndex === bomb[0] && index === bomb[1] ? "💣" : "ㅤ",
+	 *        "payload"
+	 *    )
+	 *);
+	 * ```
 	 */
 	public matrix(rows: number, columns: number, fn: CreateButtonIterator<T>) {
 		if (rows < 1 || columns < 1)
