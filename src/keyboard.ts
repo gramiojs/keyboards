@@ -291,6 +291,34 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	}
 
 	/**
+	 * Allows you to combine keyboards. Only keyboards are combined. You need to call the `.row()` method to line-break after combine.
+	 *
+	 * @example
+	 * ```ts
+	 * new Keyboard()
+	 * 			.combine(new Keyboard().text("first"))
+	 * 			.row()
+	 * 			.combine(new Keyboard().text("second").row().text("third"))
+	 * ```
+	 */
+	combine(
+		keyboard:
+			| TelegramKeyboardButton[][]
+			| TelegramReplyKeyboardMarkup
+			| { toJSON: () => TelegramReplyKeyboardMarkup },
+	) {
+		const json = "toJSON" in keyboard ? keyboard.toJSON() : keyboard;
+
+		const buttons = Array.isArray(json) ? json : json.keyboard;
+
+		for (const row of buttons) {
+			if (row.length) this.row().add(...row);
+		}
+
+		return this;
+	}
+
+	/**
 	 * Return {@link TelegramReplyKeyboardMarkup} as JSON
 	 */
 	toJSON(): TelegramReplyKeyboardMarkup {

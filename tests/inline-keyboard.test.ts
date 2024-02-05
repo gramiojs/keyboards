@@ -77,6 +77,26 @@ describe("InlineKeyboard", () => {
 		]);
 	});
 
+	test("combine", () => {
+		const { inline_keyboard } = new InlineKeyboard()
+			.combine(new InlineKeyboard())
+			.combine(new InlineKeyboard().text("some", "payload"))
+			.row()
+			.combine(
+				new InlineKeyboard()
+					.text("test", "payload")
+					.row()
+					.text("second row???", "payload"),
+			)
+			.toJSON();
+
+		expect(inline_keyboard).toEqual([
+			[{ text: "some", callback_data: "payload" }],
+			[{ text: "test", callback_data: "payload" }],
+			[{ text: "second row???", callback_data: "payload" }],
+		]);
+	});
+
 	test("with all types of inline keyboard", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.columns(1)

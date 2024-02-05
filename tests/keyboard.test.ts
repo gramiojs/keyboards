@@ -97,6 +97,21 @@ describe("Keyboard", () => {
 		]);
 	});
 
+	test("Combine", () => {
+		const { keyboard } = new Keyboard()
+			.combine(new Keyboard())
+			.combine(new Keyboard().text("some"))
+			.row()
+			.combine(new Keyboard().text("test").row().text("second row???"))
+			.toJSON();
+
+		expect(keyboard).toEqual([
+			[{ text: "some" }],
+			[{ text: "test" }],
+			[{ text: "second row???" }],
+		]);
+	});
+
 	test("Keyboard with webApp AND text", () => {
 		const { keyboard } = new Keyboard()
 			.webApp("test text", "https://")

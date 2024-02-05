@@ -8,6 +8,12 @@ import {
 import { Inspectable } from "inspectable";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
+interface TelegramInlineKeyboardMarkupFix {
+	//![INFO] Some hack for solve grammy union type problem
+	//TODO: maybe find better way?
+	inline_keyboard: (TelegramInlineKeyboardButton & { pay: boolean })[][];
+}
+
 /**
  * **InlineKeyboardMarkup** builder
  *
@@ -279,17 +285,45 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	}
 
 	/**
+	 * Allows you to combine keyboards. Only keyboards are combined. You need to call the `.row()` method to line-break after combine.
+	 *
+	 * @example
+	 * ```ts
+	 * new InlineKeyboard()
+	 * 			.combine(new InlineKeyboard().text("some", "payload"))
+	 * 			.row()
+	 * 			.combine(
+	 * 				new InlineKeyboard()
+	 * 					.text("test", "payload")
+	 * 					.row()
+	 * 					.text("second row???", "payload"),
+	 * 			)
+	 * ```
+	 */
+	combine(
+		keyboard:
+			| TelegramInlineKeyboardButton[][]
+			| TelegramInlineKeyboardMarkup
+			| { toJSON: () => TelegramInlineKeyboardMarkup },
+	) {
+		const json = "toJSON" in keyboard ? keyboard.toJSON() : keyboard;
+
+		const buttons = Array.isArray(json) ? json : json.inline_keyboard;
+
+		for (const row of buttons) {
+			this.row().add(...row);
+		}
+
+		return this;
+	}
+
+	/**
 	 * Return {@link TelegramInlineKeyboardMarkup} as JSON
 	 */
-	toJSON(): {
-		//![INFO] Some hack for solve grammy union type problem
-		//TODO: maybe find better way?
-		inline_keyboard: (TelegramInlineKeyboardButton & { pay: boolean })[][];
-	} {
+	toJSON(): TelegramInlineKeyboardMarkupFix {
 		return {
-			inline_keyboard: this.keyboard as (TelegramInlineKeyboardButton & {
-				pay: boolean;
-			})[][],
+			inline_keyboard: this
+				.keyboard as TelegramInlineKeyboardMarkupFix["inline_keyboard"],
 		};
 	}
 }
