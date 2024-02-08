@@ -215,8 +215,8 @@ export class BaseKeyboardConstructor<T> {
 	 */
 
 	public addIf(
-		condition: (options: { rowIndex: number; index: number }) =>
-			| boolean
+		condition:
+			| ((options: { rowIndex: number; index: number }) => boolean)
 			| boolean,
 		...buttons: T[]
 	) {
