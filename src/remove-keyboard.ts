@@ -1,5 +1,4 @@
 import { TelegramReplyKeyboardRemove } from "@gramio/types";
-import { Inspectable } from "inspectable";
 
 /**
  * **ReplyKeyboardRemove** builder
@@ -8,9 +7,6 @@ import { Inspectable } from "inspectable";
  *
  * {@link https://core.telegram.org/bots/api/#replykeyboardremove | [Documentation]}
  */
-@Inspectable<RemoveKeyboard>({
-	serialize: (keyboard) => keyboard.toJSON(),
-})
 export class RemoveKeyboard {
 	options = {
 		isSelective: false,

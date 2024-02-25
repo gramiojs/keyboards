@@ -5,7 +5,6 @@ import type {
 	TelegramKeyboardButtonRequestUsers,
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
-import { Inspectable } from "inspectable";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
 /**
@@ -15,9 +14,6 @@ import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
  *
  * {@link https://core.telegram.org/bots/api/#replykeyboardmarkup | [Documentation]}
  */
-@Inspectable<Keyboard>({
-	serialize: (keyboard) => keyboard.toJSON(),
-})
 export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	options = {
 		isOneTime: false,

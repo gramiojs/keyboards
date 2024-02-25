@@ -1,5 +1,4 @@
 import { TelegramForceReply } from "@gramio/types";
-import { Inspectable } from "inspectable";
 
 /**
  * **ForceReply** builder
@@ -8,9 +7,6 @@ import { Inspectable } from "inspectable";
  *
  * {@link https://core.telegram.org/bots/api/#forcereply | [Documentation]}
  */
-@Inspectable<ForceReplyKeyboard>({
-	serialize: (keyboard) => keyboard.toJSON(),
-})
 export class ForceReplyKeyboard {
 	options = {
 		isSelective: false,

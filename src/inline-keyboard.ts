@@ -5,7 +5,6 @@ import {
 	TelegramLoginUrl,
 	TelegramSwitchInlineQueryChosenChat,
 } from "@gramio/types";
-import { Inspectable } from "inspectable";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
 interface TelegramInlineKeyboardMarkupFix {
@@ -21,9 +20,6 @@ interface TelegramInlineKeyboardMarkupFix {
  *
  * {@link https://core.telegram.org/bots/api/#inlinekeyboardmarkup | [Documentation]}
  */
-@Inspectable<InlineKeyboard>({
-	serialize: (keyboard) => keyboard.toJSON(),
-})
 export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboardButton> {
 	/**
 	 * Text button with data to be sent in a [callback query](https://core.telegram.org/bots/api/#callbackquery) to the bot when button is pressed, 1-64 bytes
