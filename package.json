@@ -1,10 +1,10 @@
 {
     "name": "@gramio/keyboards",
-    "version": "0.1.6",
+    "version": "0.2.0",
     "description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
     "main": "dist/index.js",
     "type": "commonjs",
-    "homepage": "https://github.com/gramiojs/types",
+    "homepage": "https://github.com/gramiojs/keyboards",
     "readme": "https://gramio.netlify.app/keyboards/overview.html",
     "scripts": {
         "prepublishOnly": "bun test && tsc"
@@ -17,7 +17,9 @@
         "inline-keyboard",
         "keyboard-builder",
         "telegram-bot-api",
-        "grammy"
+        "grammy",
+        "telegraf",
+        "node-telegram-bot-api"
     ],
     "devDependencies": {
         "@types/bun": "^1.0.7",
