@@ -3,7 +3,7 @@ import { ForceReplyKeyboard } from "../src";
 
 describe("ForceReplyKeyboard", () => {
 	test("simple", () => {
-		expect(new ForceReplyKeyboard().toJSON()).toEqual({
+		expect(new ForceReplyKeyboard().build()).toEqual({
 			force_reply: true,
 			selective: false,
 			input_field_placeholder: undefined,
@@ -12,7 +12,7 @@ describe("ForceReplyKeyboard", () => {
 
 	test("with options", () => {
 		expect(
-			new ForceReplyKeyboard().selective().placeholder("GRAMIO").toJSON(),
+			new ForceReplyKeyboard().selective().placeholder("GRAMIO").build(),
 		).toEqual({
 			force_reply: true,
 			selective: true,

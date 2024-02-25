@@ -44,6 +44,10 @@ export class ForceReplyKeyboard {
 	/**
 	 * Return {@link TelegramForceReply} as JSON
 	 */
+	build() {
+		return this.toJSON();
+	}
+
 	toJSON(): TelegramForceReply {
 		return {
 			force_reply: true,

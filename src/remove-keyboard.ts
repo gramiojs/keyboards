@@ -29,8 +29,12 @@ export class RemoveKeyboard {
 	}
 
 	/**
-	 * Return {@link TelegramReplyKeyboardRemove} as JSON
+	 * Return {@link TelegramReplyKeyboardRemove} as object
 	 */
+	build() {
+		return this.toJSON();
+	}
+
 	toJSON(): TelegramReplyKeyboardRemove {
 		return {
 			remove_keyboard: true,

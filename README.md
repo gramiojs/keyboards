@@ -21,14 +21,30 @@ const keyboard = new Keyboard()
     .text("first row")
     .row()
     .text("second row")
-    .toJSON(); // NOTE: In gramio, you don't have to use the ".toJSON" method
+    .build(); // NOTE: In GramIO, you don't have to use the ".build" method
 ```
 
 ## Usage with Frameworks
 
 ### Send via GramIO
 
-GramIO is not ready yet...
+```ts
+import { Bot, Keyboard } from "gramio"; // import from GramIO package!!
+
+const bot = new Bot(process.env.TOKEN);
+
+const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
+
+bot.on("message", (ctx) => {
+    return ctx.reply("test", {
+        reply_markup: new Keyboard()
+            .columns(1)
+            .text("simple keyboard")
+            .add(...data.map((x) => Keyboard.text(x)))
+            .filter(({ button }) => button.text !== "Tesla"),
+    });
+});
+```
 
 ### Send via [Grammy](https://grammy.dev/)
 
@@ -47,7 +63,7 @@ bot.on("message", (ctx) => {
             .text("simple keyboard")
             .add(...data.map((x) => Keyboard.text(x)))
             .filter(({ button }) => button.text !== "Tesla")
-            .toJSON(),
+            .build(),
     });
 });
 

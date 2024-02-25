@@ -3,7 +3,7 @@ import { Keyboard } from "../src";
 
 describe("Keyboard", () => {
 	test("Simple keyboard", () => {
-		expect(new Keyboard().toJSON()).toEqual({
+		expect(new Keyboard().build()).toEqual({
 			keyboard: [],
 			one_time_keyboard: false,
 			is_persistent: false,
@@ -13,7 +13,7 @@ describe("Keyboard", () => {
 	});
 
 	test("Keyboard with text", () => {
-		const { keyboard } = new Keyboard().text("test text").toJSON();
+		const { keyboard } = new Keyboard().text("test text").build();
 
 		expect(keyboard).toEqual([[{ text: "test text" }]]);
 	});
@@ -26,13 +26,13 @@ describe("Keyboard", () => {
 			.row()
 			.text("test")
 			.row()
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([[{ text: "test text" }], [{ text: "test" }]]);
 	});
 
 	test("Keyboard with wrap columns", () => {
-		const { keyboard } = new Keyboard().columns(1).text("1").text("2").toJSON();
+		const { keyboard } = new Keyboard().columns(1).text("1").text("2").build();
 
 		expect(keyboard).toEqual([[{ text: "1" }], [{ text: "2" }]]);
 	});
@@ -44,7 +44,7 @@ describe("Keyboard", () => {
 			.text("2")
 			.text("3")
 			.text("4")
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[{ text: "1" }, { text: "2" }],
@@ -60,7 +60,7 @@ describe("Keyboard", () => {
 			.text("page 1")
 			.add(...labels.map((x) => Keyboard.text(x)))
 			.text("next page")
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[{ text: "page 1" }],
@@ -78,7 +78,7 @@ describe("Keyboard", () => {
 			.text("4")
 			.text("5")
 			.text("6")
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[{ text: "1" }],
@@ -88,9 +88,7 @@ describe("Keyboard", () => {
 	});
 
 	test("Keyboard with webApp", () => {
-		const { keyboard } = new Keyboard()
-			.webApp("test text", "https://")
-			.toJSON();
+		const { keyboard } = new Keyboard().webApp("test text", "https://").build();
 
 		expect(keyboard).toEqual([
 			[{ text: "test text", web_app: { url: "https://" } }],
@@ -103,7 +101,7 @@ describe("Keyboard", () => {
 			.combine(new Keyboard().text("some"))
 			.row()
 			.combine(new Keyboard().text("test").row().text("second row???"))
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[{ text: "some" }],
@@ -116,7 +114,7 @@ describe("Keyboard", () => {
 		const { keyboard } = new Keyboard()
 			.webApp("test text", "https://")
 			.text("other text")
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[
@@ -131,7 +129,7 @@ describe("Keyboard", () => {
 			.webApp("test text", "https://")
 			.text("other text")
 			.oneTime()
-			.toJSON();
+			.build();
 
 		expect(one_time_keyboard).toBe(true);
 		expect(keyboard).toEqual([
@@ -155,7 +153,7 @@ describe("Keyboard", () => {
 			.requestUsers("test", 666, {
 				user_is_premium: true,
 			})
-			.toJSON();
+			.build();
 
 		expect(keyboard).toEqual([
 			[
@@ -207,7 +205,7 @@ describe("Keyboard", () => {
 			.selective(false)
 			.resized()
 			.persistent()
-			.toJSON();
+			.build();
 
 		expect(one_time_keyboard).toBe(true);
 		expect(input_field_placeholder).toBe("gramio is the best!");
@@ -220,7 +218,7 @@ describe("Keyboard", () => {
 		const { input_field_placeholder } = new Keyboard()
 			.placeholder("test")
 			.placeholder()
-			.toJSON();
+			.build();
 
 		expect(input_field_placeholder).toBeUndefined();
 	});

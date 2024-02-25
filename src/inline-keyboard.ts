@@ -316,6 +316,10 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	/**
 	 * Return {@link TelegramInlineKeyboardMarkup} as JSON
 	 */
+	build() {
+		return this.toJSON();
+	}
+
 	toJSON(): TelegramInlineKeyboardMarkupFix {
 		return {
 			inline_keyboard: this

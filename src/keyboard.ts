@@ -315,8 +315,12 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	}
 
 	/**
-	 * Return {@link TelegramReplyKeyboardMarkup} as JSON
+	 * Return {@link TelegramReplyKeyboardMarkup} as object
 	 */
+	build() {
+		return this.toJSON();
+	}
+
 	toJSON(): TelegramReplyKeyboardMarkup {
 		return {
 			keyboard: this.keyboard,

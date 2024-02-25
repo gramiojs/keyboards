@@ -6,13 +6,13 @@ import { InlineKeyboard } from "../src";
 
 describe("InlineKeyboard", () => {
 	test("simple", () => {
-		expect(new InlineKeyboard().toJSON()).toEqual({
+		expect(new InlineKeyboard().build()).toEqual({
 			inline_keyboard: [],
 		});
 	});
 
 	test("with text", () => {
-		const { inline_keyboard } = new InlineKeyboard().text("gramio").toJSON();
+		const { inline_keyboard } = new InlineKeyboard().text("gramio").build();
 
 		expect(inline_keyboard).toEqual([[{ text: "gramio" }]]);
 	});
@@ -22,7 +22,7 @@ describe("InlineKeyboard", () => {
 			.text("gramio", "test")
 			.row()
 			.text("gramio")
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "gramio", callback_data: "test" }],
@@ -36,7 +36,7 @@ describe("InlineKeyboard", () => {
 			.row()
 			.text("gramio", "other")
 			.filter(({ button }) => button.callback_data !== "test")
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "gramio", callback_data: "other" }],
@@ -48,7 +48,7 @@ describe("InlineKeyboard", () => {
 			.text("gramio", "test")
 			.row()
 			.addIf(1 === 2, InlineKeyboard.text("test", "gramio"))
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "gramio", callback_data: "test" }],
@@ -63,7 +63,7 @@ describe("InlineKeyboard", () => {
 					"payload",
 				),
 			)
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[
@@ -88,7 +88,7 @@ describe("InlineKeyboard", () => {
 					.row()
 					.text("second row???", "payload"),
 			)
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "some", callback_data: "payload" }],
@@ -109,7 +109,7 @@ describe("InlineKeyboard", () => {
 			.switchToChosenChat("toChosenChat", "query2")
 			.switchToCurrentChat("toCurrentChat")
 			.webApp("test", "https://")
-			.toJSON();
+			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ pay: true, text: "pay" }],

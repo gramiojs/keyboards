@@ -1,33 +1,32 @@
 {
-  "name": "@gramio/keyboards",
-  "version": "0.1.6",
-  "description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
-  "main": "dist/index.js",
-  "type": "commonjs",
-  "homepage": "https://github.com/gramiojs/types",
-  "readme": "https://gramio.netlify.app/keyboards/overview.html",
-  "scripts": {
-    "prepublishOnly": "bun test && tsc"
-  },
-  "keywords": [
-    "gramio",
-    "telegram",
-    "telegram-keyboard",
-    "keyboard",
-    "inline-keyboard",
-    "keyboard-builder",
-    "telegram-bot-api",
-    "grammy"
-  ],
-  "devDependencies": {
-    "@gramio/types": "^7.1.4",
-    "@types/bun": "^1.0.7"
-  },
-  "peerDependencies": {
-    "@gramio/types": "^7.1.0",
-    "typescript": "^5.3.3"
-  },
-  "files": [
-    "dist"
-  ]
+    "name": "@gramio/keyboards",
+    "version": "0.1.6",
+    "description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
+    "main": "dist/index.js",
+    "type": "commonjs",
+    "homepage": "https://github.com/gramiojs/types",
+    "readme": "https://gramio.netlify.app/keyboards/overview.html",
+    "scripts": {
+        "prepublishOnly": "bun test && tsc"
+    },
+    "keywords": [
+        "gramio",
+        "telegram",
+        "telegram-keyboard",
+        "keyboard",
+        "inline-keyboard",
+        "keyboard-builder",
+        "telegram-bot-api",
+        "grammy"
+    ],
+    "devDependencies": {
+        "@types/bun": "^1.0.7",
+        "typescript": "^5.3.3"
+    },
+    "dependencies": {
+        "@gramio/types": "^7.1.0"
+    },
+    "files": [
+        "dist"
+    ]
 }
