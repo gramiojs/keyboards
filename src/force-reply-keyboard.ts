@@ -1,4 +1,4 @@
-import { TelegramForceReply } from "@gramio/types";
+import type { TelegramForceReply } from "@gramio/types";
 
 /**
  * **ForceReply** builder

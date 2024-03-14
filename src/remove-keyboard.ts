@@ -1,4 +1,4 @@
-import { TelegramReplyKeyboardRemove } from "@gramio/types";
+import type { TelegramReplyKeyboardRemove } from "@gramio/types";
 
 /**
  * **ReplyKeyboardRemove** builder

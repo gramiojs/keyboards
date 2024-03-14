@@ -1,4 +1,4 @@
-//@ts-nocheck
+// @ts-nocheck
 //![INFO] Some hack for solve grammy union type problem
 //TODO: maybe find better way?
 import { describe, expect, test } from "bun:test";
@@ -21,12 +21,12 @@ describe("InlineKeyboard", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.text("gramio", "test")
 			.row()
-			.text("gramio")
+			.text("gramio", "some")
 			.build();
 
 		expect(inline_keyboard).toEqual([
 			[{ text: "gramio", callback_data: "test" }],
-			[{ text: "gramio", callback_data: undefined }],
+			[{ text: "gramio", callback_data: "some" }],
 		]);
 	});
 
