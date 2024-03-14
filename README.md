@@ -2,7 +2,7 @@
 
 Framework-agnostic Telegram bot keyboard builder with many cool features!
 
-### Installation
+### Installation (if you don't use GramIO)
 
 ```bash
 npm i @gramio/keyboards
