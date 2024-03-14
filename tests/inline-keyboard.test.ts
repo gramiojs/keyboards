@@ -1,6 +1,3 @@
-// @ts-nocheck
-//![INFO] Some hack for solve grammy union type problem
-//TODO: maybe find better way?
 import { describe, expect, test } from "bun:test";
 import { InlineKeyboard } from "../src";
 
@@ -12,9 +9,13 @@ describe("InlineKeyboard", () => {
 	});
 
 	test("with text", () => {
-		const { inline_keyboard } = new InlineKeyboard().text("gramio").build();
+		const { inline_keyboard } = new InlineKeyboard()
+			.text("gramio", "data")
+			.build();
 
-		expect(inline_keyboard).toEqual([[{ text: "gramio" }]]);
+		expect(inline_keyboard).toEqual([
+			[{ text: "gramio", callback_data: "data" }],
+		]);
 	});
 
 	test("with row", () => {
@@ -47,6 +48,7 @@ describe("InlineKeyboard", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.text("gramio", "test")
 			.row()
+			// @ts-expect-error 1 === 2
 			.addIf(1 === 2, InlineKeyboard.text("test", "gramio"))
 			.build();
 

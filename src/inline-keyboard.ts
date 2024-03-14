@@ -4,13 +4,60 @@ import type {
 	TelegramInlineKeyboardMarkup,
 	TelegramLoginUrl,
 	TelegramSwitchInlineQueryChosenChat,
+	TelegramWebAppInfo,
 } from "@gramio/types";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
+// types compatibility layer with https://github.com/grammyjs/types/blob/fbbb7c54c0b67cd9e168d5584b0e993d05db3fe3/markup.ts#L10
+export declare namespace InlineKeyboardButton {
+	interface AbstractInlineKeyboardButton {
+		text: string;
+	}
+	export interface UrlButton extends AbstractInlineKeyboardButton {
+		url: string;
+	}
+	export interface CallbackButton extends AbstractInlineKeyboardButton {
+		callback_data: string;
+	}
+	export interface WebAppButton extends AbstractInlineKeyboardButton {
+		web_app: TelegramWebAppInfo;
+	}
+	export interface LoginButton extends AbstractInlineKeyboardButton {
+		login_url: TelegramLoginUrl;
+	}
+	export interface SwitchInlineButton extends AbstractInlineKeyboardButton {
+		switch_inline_query: string;
+	}
+	export interface SwitchInlineCurrentChatButton
+		extends AbstractInlineKeyboardButton {
+		switch_inline_query_current_chat: string;
+	}
+	export interface SwitchInlineChosenChatButton
+		extends AbstractInlineKeyboardButton {
+		switch_inline_query_chosen_chat: TelegramSwitchInlineQueryChosenChat;
+	}
+	export interface GameButton extends AbstractInlineKeyboardButton {
+		callback_game: TelegramCallbackGame;
+	}
+	export interface PayButton extends AbstractInlineKeyboardButton {
+		pay: boolean;
+	}
+}
 interface TelegramInlineKeyboardMarkupFix {
 	//![INFO] Some hack for solve grammy union type problem
 	//TODO: maybe find better way?
-	inline_keyboard: (TelegramInlineKeyboardButton & { pay: boolean })[][];
+	inline_keyboard: (
+		| TelegramInlineKeyboardButton
+		| InlineKeyboardButton.CallbackButton
+		| InlineKeyboardButton.GameButton
+		| InlineKeyboardButton.LoginButton
+		| InlineKeyboardButton.PayButton
+		| InlineKeyboardButton.SwitchInlineButton
+		| InlineKeyboardButton.SwitchInlineCurrentChatButton
+		| InlineKeyboardButton.SwitchInlineChosenChatButton
+		| InlineKeyboardButton.UrlButton
+		| InlineKeyboardButton.WebAppButton
+	)[][];
 }
 
 /**
