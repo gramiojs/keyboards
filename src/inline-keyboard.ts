@@ -9,7 +9,7 @@ import type {
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
 
 // types compatibility layer with https://github.com/grammyjs/types/blob/fbbb7c54c0b67cd9e168d5584b0e993d05db3fe3/markup.ts#L10
-export declare namespace InlineKeyboardButton {
+declare namespace InlineKeyboardButton {
 	interface AbstractInlineKeyboardButton {
 		text: string;
 	}
