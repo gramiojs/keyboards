@@ -36,7 +36,7 @@ export class InputMessageContent {
 		firstName: string,
 		options?: Omit<
 			TelegramInputContactMessageContent,
-			"phoneNumber" | "firstName"
+			"phone_number" | "first_name"
 		>,
 	): TelegramInputContactMessageContent {
 		return { phone_number: phoneNumber, first_name: firstName, ...options };

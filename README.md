@@ -1,6 +1,6 @@
 # @gramio/keyboards
 
-Framework-agnostic Telegram bot keyboard builder with many cool features!
+Framework-agnostic Telegram bot keyboard (and inline query result) builder with many cool features!
 
 ### Installation (if you don't use GramIO)
 

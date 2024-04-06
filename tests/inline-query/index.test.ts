@@ -27,4 +27,10 @@ describe("InlineQueryResult", () => {
 		InlineQueryResult.cached.video("", "", "", {});
 		InlineQueryResult.cached.voice("", "", "", {});
 	});
+	test("InputMessageContent", () => {
+		InputMessageContent.contact("", "", {});
+		InputMessageContent.location(1, 2, {});
+		InputMessageContent.text("", {});
+		// InputMessageContent.venue("", {});
+	});
 });
