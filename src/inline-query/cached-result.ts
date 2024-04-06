@@ -27,7 +27,7 @@ export class InlineQueryResultCached {
 		fileId: string,
 		options?: Omit<
 			TelegramInlineQueryResultCachedDocument,
-			"type" | "document_file_id" | "id"
+			"type" | "document_file_id" | "id" | "title"
 		>,
 	): TelegramInlineQueryResultCachedDocument {
 		return {
@@ -89,7 +89,7 @@ export class InlineQueryResultCached {
 		fileId: string,
 		options?: Omit<
 			TelegramInlineQueryResultCachedVideo,
-			"type" | "video_file_id" | "id"
+			"type" | "video_file_id" | "id" | "title"
 		>,
 	): TelegramInlineQueryResultCachedVideo {
 		return {
@@ -107,7 +107,7 @@ export class InlineQueryResultCached {
 		fileId: string,
 		options?: Omit<
 			TelegramInlineQueryResultCachedVoice,
-			"type" | "voice_file_id" | "id"
+			"type" | "voice_file_id" | "id" | "title"
 		>,
 	): TelegramInlineQueryResultCachedVoice {
 		return {

@@ -60,7 +60,7 @@ export class InlineQueryResult {
 		firstName: string,
 		options?: Omit<
 			TelegramInlineQueryResultContact,
-			"type" | "phoneNumber" | "id" | "firstName"
+			"type" | "phone_number" | "id" | "first_name"
 		>,
 	): TelegramInlineQueryResultContact {
 		return {

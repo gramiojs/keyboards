@@ -7,3 +7,4 @@ export * from "./inline-keyboard";
 export * from "./remove-keyboard";
 export * from "./force-reply-keyboard";
 export * from "./base-keyboard-constructor";
+export * from "./inline-query";
