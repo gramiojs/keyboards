@@ -19,7 +19,9 @@
         "telegram-bot-api",
         "grammy",
         "telegraf",
-        "node-telegram-bot-api"
+        "node-telegram-bot-api",
+        "puregram",
+        "inline-query"
     ],
     "devDependencies": {
         "@biomejs/biome": "1.6.4",
