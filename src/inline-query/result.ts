@@ -15,9 +15,34 @@ import type {
 } from "@gramio/types";
 import { InlineQueryResultCached } from "./cached-result";
 
+/**
+ * Result of InlineQuery builder.
+ *
+ * @example
+ * ```ts
+ * bot.api.answerInlineQuery({
+ * 	inline_query_id: context.id,
+ * 	results: [
+ * 		InlineQueryResult.article(
+ * 			"id-1",
+ * 			"some article",
+ * 			InputMessageContent.text("my article"),
+ * 		),
+ * 	],
+ * });
+ * ```
+ *
+ * [Documentation](https://core.telegram.org/bots/api#inlinequeryresult)
+ */
 export class InlineQueryResult {
+	/** Cached result of InlineQuery builder. */
 	static cached = InlineQueryResultCached;
 
+	/**
+	 * Represents a link to an article or web page.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultarticle)
+	 */
 	static article(
 		id: string,
 		title: string,
@@ -36,6 +61,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to an MP3 audio file. By default, this audio file will be sent by the user. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the audio.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultaudio)
+	 */
 	static audio(
 		id: string,
 		title: string,
@@ -54,6 +84,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a contact with a phone number. By default, this contact will be sent by the user. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the contact.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultcontact)
+	 */
 	static contact(
 		id: string,
 		phoneNumber: string,
@@ -72,6 +107,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a [Game](https://core.telegram.org/bots/api/#games).
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultgame)
+	 */
 	static game(
 		id: string,
 		gameShortName: string,
@@ -88,6 +128,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the file. Currently, only **.PDF** and **.ZIP** files can be sent using this method.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultdocument)
+	 */
 	static documentPdf(
 		id: string,
 		title: string,
@@ -106,6 +151,12 @@ export class InlineQueryResult {
 			...options,
 		};
 	}
+
+	/**
+	 * Represents a link to a file. By default, this file will be sent by the user with an optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the file. Currently, only **.PDF** and **.ZIP** files can be sent using this method.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultdocument)
+	 */
 	static documentZip(
 		id: string,
 		title: string,
@@ -125,6 +176,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to an animated GIF file. By default, this animated GIF file will be sent by the user with optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the animation.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultgif)
+	 */
 	static gif(
 		id: string,
 		gifUrl: string,
@@ -143,6 +199,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a location on a map. By default, the location will be sent by the user. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the location.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultlocation)
+	 */
 	static location(
 		id: string,
 		latitude: number,
@@ -163,6 +224,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to a video animation (H.264/MPEG-4 AVC video without sound). By default, this animated MPEG-4 file will be sent by the user with optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the animation.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultmpeg4gif)
+	 */
 	static mpeg4Gif(
 		id: string,
 		mpeg4Url: string,
@@ -181,6 +247,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to a photo. By default, this photo will be sent by the user with optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the photo.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultphoto)
+	 */
 	static photo(
 		id: string,
 		photoUrl: string,
@@ -199,6 +270,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a venue. By default, the venue will be sent by the user. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the venue.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultvenue)
+	 */
 	static venue(
 		id: string,
 		options: Omit<TelegramInlineQueryResultVenue, "type" | "id">,
@@ -206,6 +282,13 @@ export class InlineQueryResult {
 		return { type: "venue", id, ...options };
 	}
 
+	/**
+	 * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the video.
+	 *
+	 * If an InlineQueryResultVideo message contains an embedded video (e.g., YouTube), you **must** replace its content using *input\_message\_content*.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultvideo)
+	 */
 	static videoHtml(
 		id: string,
 		title: string,
@@ -227,6 +310,13 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to a page containing an embedded video player or a video file. By default, this video file will be sent by the user with an optional caption. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the video.
+	 *
+	 * If an InlineQueryResultVideo message contains an embedded video (e.g., YouTube), you **must** replace its content using *input\_message\_content*.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultvideo)
+	 */
 	static videoMp4(
 		id: string,
 		title: string,
@@ -248,6 +338,11 @@ export class InlineQueryResult {
 		};
 	}
 
+	/**
+	 * Represents a link to a voice recording in an .OGG container encoded with OPUS. By default, this voice recording will be sent by the user. Alternatively, you can use *input\_message\_content* to send a message with the specified content instead of the the voice message.
+	 *
+	 * [Documentation](https://core.telegram.org/bots/api/#inlinequeryresultvoice)
+	 */
 	static voice(
 		id: string,
 		title: string,

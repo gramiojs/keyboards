@@ -35,6 +35,9 @@ export class RemoveKeyboard {
 		return this.toJSON();
 	}
 
+	/**
+	 * Serializing a class into an {@link TelegramReplyKeyboardRemove} object (used by JSON.stringify)
+	 */
 	toJSON(): TelegramReplyKeyboardRemove {
 		return {
 			remove_keyboard: true,

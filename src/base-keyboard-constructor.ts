@@ -58,6 +58,7 @@ function filter<T>(array: T[][], fn: ButtonsIterator<T>) {
 	return chunks;
 }
 
+/** Base-class for construct keyboard with useful helpers */
 export class BaseKeyboardConstructor<T> {
 	protected rows: T[][] = [];
 	protected currentRow: T[] = [];
@@ -226,7 +227,7 @@ export class BaseKeyboardConstructor<T> {
 				: condition({
 						rowIndex: this.rows.length - 1,
 						index: this.currentRow.length - 1,
-				  });
+					});
 
 		if (isShow) this.currentRow.push(...buttons);
 

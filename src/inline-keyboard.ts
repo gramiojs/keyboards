@@ -367,6 +367,9 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		return this.toJSON();
 	}
 
+	/**
+	 * Serializing a class into an {@link TelegramInlineKeyboardMarkupFix} object (used by JSON.stringify)
+	 */
 	toJSON(): TelegramInlineKeyboardMarkupFix {
 		return {
 			inline_keyboard: this

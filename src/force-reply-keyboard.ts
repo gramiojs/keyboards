@@ -48,6 +48,9 @@ export class ForceReplyKeyboard {
 		return this.toJSON();
 	}
 
+	/**
+	 * Serializing a class into an {@link TelegramForceReply} object (used by JSON.stringify)
+	 */
 	toJSON(): TelegramForceReply {
 		return {
 			force_reply: true,
