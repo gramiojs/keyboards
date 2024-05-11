@@ -9,8 +9,8 @@ const jsrConfig = JSON.parse(String(fs.readFileSync("deno.json")));
 
 jsrConfig.version = version;
 
-fs.writeFileSync("deno.json", JSON.stringify(jsrConfig, null, 2));
+fs.writeFileSync("deno.json", JSON.stringify(jsrConfig, null, 4));
 
-execSync("bunx @teidesu/slow-types-compiler fix --entry jsr.json");
+execSync("bun x @teidesu/slow-types-compiler fix --entry jsr.json");
 
 console.log("Prepared to release on JSR!");
