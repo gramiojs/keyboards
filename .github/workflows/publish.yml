@@ -25,6 +25,12 @@ jobs:
             - name: Install modules
               run: bun install
 
+            - name: Prepare to JSR publish
+              run: bun jsr
+
+            - name: Publish package to JSR
+              run: bunx jsr publish
+
             - name: Install Node
               uses: actions/setup-node@v4
               with:

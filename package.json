@@ -1,13 +1,14 @@
 {
     "name": "@gramio/keyboards",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
     "main": "dist/index.js",
     "type": "commonjs",
     "homepage": "https://github.com/gramiojs/keyboards",
     "readme": "https://gramio.netlify.app/keyboards/overview.html",
     "scripts": {
-        "prepublishOnly": "bun test && tsc"
+        "prepublishOnly": "bun test && tsc",
+        "jsr": "bun scripts/release-jsr.ts"
     },
     "keywords": [
         "gramio",
@@ -24,12 +25,12 @@
         "inline-query"
     ],
     "devDependencies": {
-        "@biomejs/biome": "1.6.4",
-        "@types/bun": "^1.0.12",
-        "typescript": "^5.4.3"
+        "@biomejs/biome": "1.7.3",
+        "@types/bun": "^1.1.1",
+        "typescript": "^5.4.5"
     },
     "dependencies": {
-        "@gramio/types": "^7.2.1"
+        "@gramio/types": "^7.3.4"
     },
     "files": [
         "dist"

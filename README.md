@@ -2,6 +2,14 @@
 
 Framework-agnostic Telegram bot keyboard (and inline query result) builder with many cool features!
 
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/@gramio/keyboards?logo=npm&style=flat&labelColor=000&color=3b82f6)](https://www.npmjs.org/package/@gramio/keyboards)
+[![JSR](https://jsr.io/badges/@gramio/keyboards)](https://jsr.io/@gramio/keyboards)
+[![JSR Score](https://jsr.io/badges/@gramio/keyboards/score)](https://jsr.io/@gramio/keyboards)
+
+</div>
+
 ### Installation (if you don't use GramIO)
 
 ```bash

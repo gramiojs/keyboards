@@ -1,0 +1,5 @@
+{
+    "imports": {
+        "@gramio/types": "jsr:@gramio/types@^7.3.4"
+    }
+}
