@@ -16,7 +16,7 @@ Framework-agnostic Telegram bot keyboard (and inline query result) builder with 
 npm i @gramio/keyboards
 ```
 
-# See more in [Documentation](https://gramio.netlify.app/keyboards/overview.html)
+# See more in [Documentation](https://gramio.dev/keyboards/overview.html)
 
 ## Usage ([with frameworks](#usage-with-frameworks))
 

@@ -5,7 +5,7 @@
     "main": "dist/index.js",
     "type": "commonjs",
     "homepage": "https://github.com/gramiojs/keyboards",
-    "readme": "https://gramio.netlify.app/keyboards/overview.html",
+    "readme": "https://gramio.dev/keyboards/overview.html",
     "scripts": {
         "prepublishOnly": "bun test && tsc",
         "jsr": "bun scripts/release-jsr.ts"
