@@ -32,7 +32,7 @@ export class InputMessageContent {
 	 * [Documentation](https://core.telegram.org/bots/api/#inputtextmessagecontent)
 	 */
 	static text(
-		text: string,
+		text: TelegramInputTextMessageContent["message_text"],
 		options?: Omit<TelegramInputTextMessageContent, "message_text">,
 	): TelegramInputTextMessageContent {
 		return { message_text: text, ...options };
