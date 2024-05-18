@@ -44,7 +44,7 @@ const bot = new Bot(process.env.TOKEN as string);
 const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
 
 bot.on("message", (ctx) => {
-    return ctx.reply("test", {
+    return ctx.send("test", {
         reply_markup: new Keyboard()
             .columns(1)
             .text("simple keyboard")
@@ -81,7 +81,7 @@ bot.start();
 ### Send via [Telegraf](https://github.com/telegraf/telegraf)
 
 > [!WARNING]
-> The `node-telegram-bot-api` does not support the latest version of Bot API
+> The `Telegraf` does not support the latest version of Bot API
 
 ```ts
 import { Keyboard } from "@gramio/keyboards";
@@ -118,7 +118,7 @@ const bot = new Telegram({
 const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
 
 bot.on("message", (ctx) => {
-    return ctx.reply("test", {
+    return ctx.send("test", {
         reply_markup: new Keyboard()
             .columns(1)
             .text("simple keyboard")
