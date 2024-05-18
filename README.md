@@ -34,12 +34,12 @@ const keyboard = new Keyboard()
 
 ## Usage with Frameworks
 
-### Send via GramIO
+### Send via [GramIO](https://gramio.dev/)
 
 ```ts
 import { Bot, Keyboard } from "gramio"; // import from GramIO package!!
 
-const bot = new Bot(process.env.TOKEN);
+const bot = new Bot(process.env.TOKEN as string);
 
 const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
 
@@ -60,7 +60,7 @@ bot.on("message", (ctx) => {
 import { Keyboard } from "@gramio/keyboards";
 import { Bot } from "grammy";
 
-const bot = new Bot(process.env.TOKEN);
+const bot = new Bot(process.env.TOKEN as string);
 
 const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
 
@@ -76,6 +76,83 @@ bot.on("message", (ctx) => {
 });
 
 bot.start();
+```
+
+### Send via [Telegraf](https://github.com/telegraf/telegraf)
+
+> [!WARNING]
+> The `node-telegram-bot-api` does not support the latest version of Bot API
+
+```ts
+import { Keyboard } from "@gramio/keyboards";
+import { Telegraf } from "telegraf";
+
+const bot = new Telegraf(process.env.TOKEN as string);
+
+const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
+
+bot.on("message", (ctx) => {
+    return ctx.reply("test", {
+        reply_markup: new Keyboard()
+            .columns(1)
+            .text("simple keyboard")
+            .add(...data.map((x) => Keyboard.text(x)))
+            .filter(({ button }) => button.text !== "Tesla")
+            .build(),
+    });
+});
+
+bot.launch();
+```
+
+### Send via [puregram](https://puregram.cool/)
+
+```ts
+import { Telegram } from "puregram";
+import { Keyboard } from "@gramio/keyboards";
+
+const bot = new Telegram({
+    token: process.env.TOKEN as string,
+});
+
+const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
+
+bot.on("message", (ctx) => {
+    return ctx.reply("test", {
+        reply_markup: new Keyboard()
+            .columns(1)
+            .text("simple keyboard")
+            .add(...data.map((x) => Keyboard.text(x)))
+            .filter(({ button }) => button.text !== "Tesla"),
+    });
+});
+
+bot.updates.startPolling();
+```
+
+### Send via [node-telegram-bot-api](https://www.npmjs.com/package/node-telegram-bot-api)
+
+> [!WARNING]
+> The `node-telegram-bot-api` does not support the latest version of Bot API and the types are badly written, so the types may not match
+
+```ts
+import { Keyboard } from "@gramio/keyboards";
+import TelegramBot from "node-telegram-bot-api";
+
+const bot = new TelegramBot(process.env.TOKEN as string, { polling: true });
+
+const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
+
+bot.on("message", (msg) => {
+    return bot.sendMessage(msg.chat.id, "test", {
+        reply_markup: new Keyboard()
+            .columns(1)
+            .text("simple keyboard")
+            .add(...data.map((x) => Keyboard.text(x)))
+            .filter(({ button }) => button.text !== "Tesla")
+            .build(),
+    });
+});
 ```
 
 #### Result
