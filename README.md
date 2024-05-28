@@ -123,7 +123,8 @@ bot.on("message", (ctx) => {
             .columns(1)
             .text("simple keyboard")
             .add(...data.map((x) => Keyboard.text(x)))
-            .filter(({ button }) => button.text !== "Tesla"),
+            .filter(({ button }) => button.text !== "Tesla")
+            .build(),
     });
 });
 
