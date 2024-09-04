@@ -52,6 +52,8 @@ bot.on("message", (ctx) => {
             .filter(({ button }) => button.text !== "Tesla"),
     });
 });
+
+bot.start();
 ```
 
 ### Send via [Grammy](https://grammy.dev/)
@@ -105,32 +107,6 @@ bot.on("message", (ctx) => {
 bot.launch();
 ```
 
-### Send via [puregram](https://puregram.cool/)
-
-```ts
-import { Telegram } from "puregram";
-import { Keyboard } from "@gramio/keyboards";
-
-const bot = new Telegram({
-    token: process.env.TOKEN as string,
-});
-
-const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
-
-bot.on("message", (ctx) => {
-    return ctx.send("test", {
-        reply_markup: new Keyboard()
-            .columns(1)
-            .text("simple keyboard")
-            .add(...data.map((x) => Keyboard.text(x)))
-            .filter(({ button }) => button.text !== "Tesla")
-            .build(),
-    });
-});
-
-bot.updates.startPolling();
-```
-
 ### Send via [node-telegram-bot-api](https://www.npmjs.com/package/node-telegram-bot-api)
 
 > [!WARNING]
@@ -154,6 +130,35 @@ bot.on("message", (msg) => {
             .build(),
     });
 });
+```
+
+### Send via [puregram](https://puregram.cool/)
+
+> [!WARNING]
+> The `puregram` does not support the latest version of Bot API
+
+```ts
+import { Telegram } from "puregram";
+import { Keyboard } from "@gramio/keyboards";
+
+const bot = new Telegram({
+    token: process.env.TOKEN as string,
+});
+
+const data = ["Apple", "Realme", "Tesla", "Xiaomi"];
+
+bot.on("message", (ctx) => {
+    return ctx.send("test", {
+        reply_markup: new Keyboard()
+            .columns(1)
+            .text("simple keyboard")
+            .add(...data.map((x) => Keyboard.text(x)))
+            .filter(({ button }) => button.text !== "Tesla")
+            .build(),
+    });
+});
+
+bot.updates.startPolling();
 ```
 
 #### Result
