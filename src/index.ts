@@ -20,9 +20,9 @@
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 (Symbol as any).metadata ??= Symbol("Symbol.metadata");
 
-export * from "./keyboard";
-export * from "./inline-keyboard";
-export * from "./remove-keyboard";
-export * from "./force-reply-keyboard";
-export * from "./base-keyboard-constructor";
-export * from "./inline-query";
+export * from "./keyboard.js";
+export * from "./inline-keyboard.js";
+export * from "./remove-keyboard.js";
+export * from "./force-reply-keyboard.js";
+export * from "./base-keyboard-constructor.js";
+export * from "./inline-query/index.js";

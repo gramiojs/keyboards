@@ -5,7 +5,7 @@ import type {
 	TelegramKeyboardButtonRequestUsers,
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
-import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
+import { BaseKeyboardConstructor } from "./base-keyboard-constructor.js";
 
 /**
  * **ReplyKeyboardMarkup** builder

@@ -6,7 +6,7 @@ import type {
 	TelegramSwitchInlineQueryChosenChat,
 	TelegramWebAppInfo,
 } from "@gramio/types";
-import { BaseKeyboardConstructor } from "./base-keyboard-constructor";
+import { BaseKeyboardConstructor } from "./base-keyboard-constructor.js";
 
 // types compatibility layer with https://github.com/grammyjs/types/blob/fbbb7c54c0b67cd9e168d5584b0e993d05db3fe3/markup.ts#L10
 declare namespace InlineKeyboardButton {

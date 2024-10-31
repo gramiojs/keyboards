@@ -1,2 +1,2 @@
-export * from "./input-message-content";
-export * from "./result";
+export * from "./input-message-content.js";
+export * from "./result.js";

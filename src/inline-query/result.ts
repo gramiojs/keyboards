@@ -13,7 +13,7 @@ import type {
 	TelegramInlineQueryResultVoice,
 	TelegramInputMessageContent,
 } from "@gramio/types";
-import { InlineQueryResultCached } from "./cached-result";
+import { InlineQueryResultCached } from "./cached-result.js";
 
 /**
  * Result of InlineQuery builder.
