@@ -45,5 +45,6 @@
 	"dependencies": {
 		"@gramio/types": "^7.11.0"
 	},
+	"license": "MIT",
 	"files": ["dist"]
 }

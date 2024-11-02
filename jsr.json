@@ -1,15 +1,9 @@
 {
-    "$schema": "https://jsr.io/schema/config-file.v1.json",
-    "name": "@gramio/keyboards",
-    "version": "0.3.4",
-    "exports": "./src/index.ts",
-    "publish": {
-        "include": [
-            "jsr.json",
-            "import_map.json",
-            "src",
-            "README.md",
-            "tsconfig.json"
-        ]
-    }
+	"$schema": "https://jsr.io/schema/config-file.v1.json",
+	"name": "@gramio/keyboards",
+	"version": "0.3.4",
+	"exports": "./src/index.ts",
+	"publish": {
+		"include": ["jsr.json", "import_map.json", "src", "README.md", "LICENSE"]
+	}
 }
