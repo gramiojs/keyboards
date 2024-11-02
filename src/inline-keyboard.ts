@@ -1,5 +1,6 @@
 import type {
 	TelegramCallbackGame,
+	TelegramCopyTextButton,
 	TelegramInlineKeyboardButton,
 	TelegramInlineKeyboardMarkup,
 	TelegramLoginUrl,
@@ -42,9 +43,13 @@ declare namespace InlineKeyboardButton {
 	export interface PayButton extends AbstractInlineKeyboardButton {
 		pay: boolean;
 	}
+	export interface CopyTextButtonButton extends AbstractInlineKeyboardButton {
+		/** Description of the button that copies the specified text to the clipboard. */
+		copy_text: TelegramCopyTextButton;
+	}
 }
 interface TelegramInlineKeyboardMarkupFix {
-	//![INFO] Some hack for solve grammy union type problem
+	//![INFO] Some hack for solve union type problem with grammy
 	//TODO: maybe find better way?
 	inline_keyboard: (
 		| TelegramInlineKeyboardButton
@@ -55,6 +60,7 @@ interface TelegramInlineKeyboardMarkupFix {
 		| InlineKeyboardButton.SwitchInlineButton
 		| InlineKeyboardButton.SwitchInlineCurrentChatButton
 		| InlineKeyboardButton.SwitchInlineChosenChatButton
+		| InlineKeyboardButton.CopyTextButtonButton
 		| InlineKeyboardButton.UrlButton
 		| InlineKeyboardButton.WebAppButton
 	)[][];
@@ -291,8 +297,6 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	}
 
 	/**
-	 * **NOTE:** TelegramCallbackGame is empty and keyboard is not working yet
-	 *
 	 * Description of the game that will be launched when the user presses the button.
 	 *
 	 * **NOTE:** This type of button **must** always be the first button in the first row.
@@ -311,8 +315,6 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	}
 
 	/**
-	 * **NOTE:** TelegramCallbackGame is empty and keyboard is not working yet
-	 *
 	 * Description of the game that will be launched when the user presses the button.
 	 *
 	 * **NOTE:** This type of button **must** always be the first button in the first row.
@@ -324,6 +326,21 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		return {
 			text,
 			callback_game: gameOptions,
+		};
+	}
+
+	copy(text: string, textToCopy: string | TelegramCopyTextButton) {
+		return this.add(InlineKeyboard.copy(text, textToCopy));
+	}
+
+	static copy(
+		text: string,
+		textToCopy: string | TelegramCopyTextButton,
+	): TelegramInlineKeyboardButton {
+		return {
+			text,
+			copy_text:
+				typeof textToCopy === "string" ? { text: textToCopy } : textToCopy,
 		};
 	}
 
