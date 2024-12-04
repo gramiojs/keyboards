@@ -37,10 +37,10 @@
 		"inline-query"
 	],
 	"devDependencies": {
-		"@biomejs/biome": "1.7.3",
-		"@types/bun": "^1.1.12",
+		"@biomejs/biome": "1.9.4",
+		"@types/bun": "^1.1.14",
 		"pkgroll": "^2.5.1",
-		"typescript": "^5.6.3"
+		"typescript": "^5.7.2"
 	},
 	"dependencies": {
 		"@gramio/types": "*"

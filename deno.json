@@ -6,6 +6,6 @@
 		"include": ["deno.json", "import_map.json", "src", "README.md", "LICENSE"]
 	},
 	"imports": {
-		"@gramio/types": "jsr:@gramio/types@*"
+		"@gramio/types": "jsr:@gramio/types@^8.1.0"
 	}
 }
