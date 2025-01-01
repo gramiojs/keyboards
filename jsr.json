@@ -4,6 +4,6 @@
 	"version": "0.3.4",
 	"exports": "./src/index.ts",
 	"publish": {
-		"include": ["jsr.json", "import_map.json", "src", "README.md", "LICENSE"]
+		"include": ["src", "README.md", "LICENSE"]
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@gramio/keyboards",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",
@@ -38,11 +38,11 @@
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/bun": "^1.1.14",
-		"pkgroll": "^2.5.1",
+		"pkgroll": "^2.6.0",
 		"typescript": "^5.7.2"
 	},
 	"dependencies": {
-		"@gramio/types": "*"
+		"@gramio/types": "^8.2.0"
 	},
 	"license": "MIT",
 	"files": ["dist"]
