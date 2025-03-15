@@ -7,11 +7,20 @@ interface TestButton {
 	callback_data: string;
 }
 
-describe("BaseKeyboardConstructor - add() method", () => {
-	// Helper function to create test buttons
-	const createTestButton = (text: string): TestButton => ({
+function createTestButton(text: string): TestButton {
+	return {
 		text,
 		callback_data: `callback_${text}`,
+	};
+}
+
+describe("BaseKeyboardConstructor - add() method", () => {
+	beforeEach(() => {
+		keyboardsFeatureFlagsMap.enableSetterKeyboardHelpers = true;
+	});
+
+	afterEach(() => {
+		keyboardsFeatureFlagsMap.enableSetterKeyboardHelpers = false;
 	});
 
 	test("should add buttons without helpers", () => {
@@ -28,14 +37,6 @@ describe("BaseKeyboardConstructor - add() method", () => {
 	});
 
 	describe("with enableSetterKeyboardHelpers enabled", () => {
-		beforeEach(() => {
-			keyboardsFeatureFlagsMap.enableSetterKeyboardHelpers = true;
-		});
-
-		afterEach(() => {
-			keyboardsFeatureFlagsMap.enableSetterKeyboardHelpers = false;
-		});
-
 		test("should handle columns helper", () => {
 			const keyboard = new BaseKeyboardConstructor<TestButton>();
 			const buttons = [
@@ -129,5 +130,178 @@ describe("BaseKeyboardConstructor - add() method", () => {
 
 			expect(keyboard["appliedHelper"]).toBeUndefined();
 		});
+	});
+
+	test("should combine filter and pattern helpers", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("1"),
+			createTestButton("skip"),
+			createTestButton("2"),
+			createTestButton("skip"),
+			createTestButton("3"),
+			createTestButton("4"),
+		];
+
+		keyboard
+			.filter(({ button }) => button.text !== "skip")
+			.pattern([2, 1])
+			.add(...buttons);
+
+		expect(keyboard["rows"]).toEqual([[buttons[0], buttons[2]], [buttons[4]]]);
+		expect(keyboard["currentRow"]).toEqual([buttons[5]]);
+	});
+
+	test("should handle changing helpers mid-flow", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons1 = [
+			createTestButton("1"),
+			createTestButton("2"),
+			createTestButton("3"),
+		];
+		const buttons2 = [
+			createTestButton("4"),
+			createTestButton("5"),
+			createTestButton("6"),
+		];
+
+		keyboard
+			.columns(2)
+			.add(...buttons1)
+			.row()
+			.pattern([1, 2])
+			.add(...buttons2);
+
+		console.log(keyboard["rows"]);
+
+		expect(keyboard["rows"]).toEqual([
+			[buttons1[0], buttons1[1]],
+			[buttons1[2]],
+			[buttons2[0]],
+			[buttons2[1], buttons2[2]],
+		]);
+	});
+
+	test("should handle wrap with filter combination", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("1"),
+			createTestButton("break"),
+			createTestButton("skip"),
+			createTestButton("2"),
+			createTestButton("break"),
+			createTestButton("3"),
+		];
+
+		keyboard
+			.filter(({ button }) => button.text !== "skip")
+			.wrap(({ button }) => button.text === "break")
+			.add(...buttons);
+
+		expect(keyboard["rows"]).toEqual([
+			[buttons[0], buttons[1]],
+			[buttons[3], buttons[4]],
+		]);
+		expect(keyboard["currentRow"]).toEqual([buttons[5]]);
+	});
+
+	test("should handle complex pattern with filter", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = Array.from({ length: 10 }, (_, i) =>
+			createTestButton(i % 2 === 0 ? String(i) : "skip"),
+		);
+
+		keyboard
+			.filter(({ button }) => button.text !== "skip")
+			.pattern([1, 2, 1])
+			.add(...buttons);
+
+		expect(keyboard["rows"]).toEqual([
+			[buttons[0]],
+			[buttons[2], buttons[4]],
+			[buttons[6]],
+		]);
+		expect(keyboard["currentRow"]).toEqual([buttons[8]]);
+	});
+
+	test("should handle columns override pattern", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("1"),
+			createTestButton("2"),
+			createTestButton("3"),
+			createTestButton("4"),
+		];
+
+		keyboard
+			.pattern([1, 2])
+			.add(buttons[0])
+			.columns(2)
+			.add(buttons[1], buttons[2], buttons[3]);
+
+		expect(keyboard["rows"]).toEqual([[buttons[0]], [buttons[1], buttons[2]]]);
+		expect(keyboard["currentRow"]).toEqual([buttons[3]]);
+	});
+
+	test("should handle filter with empty result", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("skip"),
+			createTestButton("skip"),
+			createTestButton("skip"),
+		];
+
+		keyboard
+			.filter(({ button }) => button.text !== "skip")
+			.columns(2)
+			.add(...buttons);
+
+		expect(keyboard["rows"]).toEqual([]);
+		expect(keyboard["currentRow"]).toEqual([]);
+	});
+
+	test("should maintain helper state after row()", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("1"),
+			createTestButton("2"),
+			createTestButton("3"),
+			createTestButton("4"),
+		];
+
+		keyboard
+			.columns(2)
+			.add(buttons[0], buttons[1])
+			.row(false)
+			.add(buttons[2], buttons[3]);
+
+		expect(keyboard["rows"]).toEqual([
+			[buttons[0], buttons[1]],
+			[buttons[2], buttons[3]],
+		]);
+		expect(keyboard["currentRow"]).toEqual([]);
+	});
+
+	test("should reset helper state after row()", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>();
+		const buttons = [
+			createTestButton("1"),
+			createTestButton("2"),
+			createTestButton("3"),
+			createTestButton("4"),
+		];
+
+		keyboard
+			.columns(2)
+			.add(buttons[0], buttons[1])
+			.row()
+			.add(buttons[2], buttons[3]);
+
+		console.log(keyboard["rows"]);
+
+		expect(keyboard["rows"]).toEqual([
+			[buttons[0], buttons[1]],
+			[buttons[2], buttons[3]],
+		]);
 	});
 });
