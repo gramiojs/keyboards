@@ -19,7 +19,7 @@
 	"homepage": "https://github.com/gramiojs/keyboards",
 	"readme": "https://gramio.dev/keyboards/overview",
 	"scripts": {
-		"prepublishOnly": "bun test && bunx pkgroll"
+		"prepublishOnly": "bunx tsc --noEmit && bun test && bunx pkgroll"
 	},
 	"keywords": [
 		"gramio",

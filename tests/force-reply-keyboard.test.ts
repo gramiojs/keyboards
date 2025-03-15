@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { ForceReplyKeyboard } from "../src";
+import { ForceReplyKeyboard } from "../src/index.ts";
 
 describe("ForceReplyKeyboard", () => {
 	test("simple", () => {

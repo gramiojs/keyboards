@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { RemoveKeyboard } from "../src";
+import { RemoveKeyboard } from "../src/index.ts";
 
 describe("RemoveKeyboard", () => {
 	test("simple", () => {

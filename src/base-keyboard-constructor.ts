@@ -1,67 +1,24 @@
-function chunk<T>(array: T[][], size: number) {
-	const flatArray = array.flat();
-	const chunks = [];
-
-	for (let i = 0; i < flatArray.length; i += size) {
-		chunks.push(flatArray.slice(i, i + size));
-	}
-
-	return chunks;
-}
-
-type ButtonsIterator<T> = (options: {
-	button: T;
-	index: number;
-	row: T[];
-	rowIndex: number;
-}) => boolean;
-
-type CreateButtonIterator<T> = (options: {
-	index: number;
-	rowIndex: number;
-}) => T;
-
-function customWrap<T>(array: T[][], fn: ButtonsIterator<T>) {
-	const flatArray = array.flat();
-	const chunks = [];
-	let currentChunk = [];
-
-	for (const [index, button] of flatArray.entries()) {
-		if (fn({ button, index, row: currentChunk, rowIndex: chunks.length })) {
-			chunks.push(currentChunk);
-			currentChunk = [];
-		}
-		currentChunk.push(button);
-	}
-
-	return currentChunk.length ? [...chunks, currentChunk] : chunks;
-}
-
-function pattern<T>(array: T[][], pattern: number[]) {
-	return customWrap(
-		array,
-		({ row, rowIndex }) => row.length === pattern[rowIndex],
-	);
-}
-
-function filter<T>(array: T[][], fn: ButtonsIterator<T>) {
-	const chunks = [];
-
-	for (const [rowIndex, row] of array.entries()) {
-		const filtered = row.filter((button, index) =>
-			fn({ button, index, row, rowIndex }),
-		);
-
-		if (filtered.length) chunks.push(filtered);
-	}
-
-	return chunks;
-}
+import {
+	type ButtonsIterator,
+	type CreateButtonIterator,
+	type KeyboardFeatureFlags,
+	type KeyboardHelpers,
+	chunk,
+	customWrap,
+	filter,
+	keyboardsFeatureFlagsMap,
+	pattern,
+} from "./utils.ts";
 
 /** Base-class for construct keyboard with useful helpers */
 export class BaseKeyboardConstructor<T> {
 	protected rows: T[][] = [];
 	protected currentRow: T[] = [];
+	protected featureFlags = keyboardsFeatureFlagsMap;
+
+	constructor(featureFlags?: KeyboardFeatureFlags) {
+		this.featureFlags = featureFlags ?? keyboardsFeatureFlagsMap;
+	}
 
 	private wrapOptions = {
 		columns: undefined as number | undefined,
@@ -70,10 +27,16 @@ export class BaseKeyboardConstructor<T> {
 		pattern: undefined as number[] | undefined,
 	};
 
+	private appliedHelper: KeyboardHelpers<T> | undefined;
+	// Can be combined with other helpers
+	private appliedFilter: ButtonsIterator<T> | undefined;
+
 	protected get keyboard() {
 		let keyboard = this.currentRow.length
 			? [...this.rows, this.currentRow]
 			: this.rows;
+
+		if (this.featureFlags.enableSetterKeyboardHelpers) return keyboard;
 
 		if (this.wrapOptions.columns)
 			keyboard = chunk(keyboard, this.wrapOptions.columns);
@@ -97,11 +60,12 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("second row", "payload");
 	 * ```
 	 */
-	public row() {
+	public row(removeAppliedHelper = true) {
 		if (!this.currentRow.length) return this;
 
 		this.rows.push(this.currentRow);
 		this.currentRow = [];
+		if (removeAppliedHelper) this.appliedHelper = undefined;
 
 		return this;
 	}
@@ -120,6 +84,9 @@ export class BaseKeyboardConstructor<T> {
 	public columns(length?: number) {
 		this.wrapOptions.columns = length;
 
+		if (length) this.appliedHelper = { type: "columns", columns: length };
+		else this.appliedHelper = undefined;
+
 		return this;
 	}
 
@@ -137,6 +104,9 @@ export class BaseKeyboardConstructor<T> {
 	public wrap(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.fn = fn;
 
+		if (fn) this.appliedHelper = { type: "wrap", fn };
+		else this.appliedHelper = undefined;
+
 		return this;
 	}
 
@@ -153,6 +123,8 @@ export class BaseKeyboardConstructor<T> {
 	 */
 	public filter(fn?: ButtonsIterator<T>) {
 		this.wrapOptions.filter = fn;
+
+		this.appliedFilter = fn;
 
 		return this;
 	}
@@ -174,6 +146,9 @@ export class BaseKeyboardConstructor<T> {
 	public pattern(pattern?: number[]) {
 		this.wrapOptions.pattern = pattern;
 
+		if (pattern) this.appliedHelper = { type: "pattern", pattern };
+		else this.appliedHelper = undefined;
+
 		return this;
 	}
 
@@ -189,8 +164,68 @@ export class BaseKeyboardConstructor<T> {
 	 *     .add(...labels.map((x) => InlineKeyboard.text(x, `${x}payload`)));
 	 * ```
 	 */
+	// TODO: cleanup and refactor
 	public add(...buttons: T[]) {
-		this.currentRow.push(...buttons);
+		if (this.featureFlags.enableSetterKeyboardHelpers) {
+			const applyFilter = this.appliedFilter
+				? (button: T) =>
+						this.appliedFilter?.({
+							button,
+							index: this.currentRow.length - 1,
+							row: this.currentRow,
+							rowIndex: this.rows.length - 1,
+						})
+				: undefined;
+
+			if (this.appliedHelper?.type === "columns") {
+				for (const button of buttons) {
+					if (applyFilter && !applyFilter(button)) continue;
+					this.currentRow.push(button);
+
+					if (this.currentRow.length === this.appliedHelper.columns) {
+						this.row(false);
+					}
+				}
+			} else if (this.appliedHelper?.type === "wrap") {
+				for (const button of buttons) {
+					if (applyFilter && !applyFilter(button)) continue;
+					this.currentRow.push(button);
+
+					if (
+						this.appliedHelper.fn({
+							button,
+							index: this.currentRow.length - 1,
+							row: this.currentRow,
+							rowIndex: this.rows.length - 1,
+						})
+					) {
+						this.row(false);
+					}
+				}
+			} else if (this.appliedHelper?.type === "pattern") {
+				for (const button of buttons) {
+					if (applyFilter && !applyFilter(button)) continue;
+					this.currentRow.push(button);
+
+					if (
+						this.appliedHelper &&
+						this.currentRow.length >= this.appliedHelper.pattern[0]
+					) {
+						this.row(false);
+						this.appliedHelper.pattern.shift();
+						if (this.appliedHelper.pattern.length === 0)
+							this.appliedHelper = undefined;
+					}
+				}
+			} else {
+				if (this.appliedFilter) {
+					for (const button of buttons) {
+						if (applyFilter && !applyFilter(button)) continue;
+						this.currentRow.push(button);
+					}
+				} else this.currentRow.push(...buttons);
+			}
+		} else this.currentRow.push(...buttons);
 
 		return this;
 	}
@@ -229,7 +264,7 @@ export class BaseKeyboardConstructor<T> {
 						index: this.currentRow.length - 1,
 					});
 
-		if (isShow) this.currentRow.push(...buttons);
+		if (isShow) this.add(...buttons); // currentRow.push
 
 		return this;
 	}

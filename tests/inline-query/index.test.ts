@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { InlineQueryResult, InputMessageContent } from "../../src";
+import { InlineQueryResult, InputMessageContent } from "../../src/index.ts";
 
 describe("InlineQueryResult", () => {
 	test("not cached", () => {

@@ -1,15 +1,16 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
-    "organizeImports": {
-        "enabled": true
-    },
-    "linter": {
-        "enabled": true,
-        "rules": {
-            "complexity": {
-                "noStaticOnlyClass": "off"
-            },
-            "recommended": true
-        }
-    }
+	"$schema": "https://biomejs.dev/schemas/1.6.4/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"ignore": ["tests/base-keyboard-constructor.test.ts"],
+		"rules": {
+			"complexity": {
+				"noStaticOnlyClass": "off"
+			},
+			"recommended": true
+		}
+	}
 }

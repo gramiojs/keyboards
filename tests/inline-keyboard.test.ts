@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { InlineKeyboard } from "../src";
+import { InlineKeyboard } from "../src/index.ts";
 
 describe("InlineKeyboard", () => {
 	test("simple", () => {
