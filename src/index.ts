@@ -26,3 +26,4 @@ export * from "./remove-keyboard.js";
 export * from "./force-reply-keyboard.js";
 export * from "./base-keyboard-constructor.js";
 export * from "./inline-query/index.js";
+export * from "./utils.js";
