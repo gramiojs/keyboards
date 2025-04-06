@@ -272,7 +272,7 @@ describe("BaseKeyboardConstructor - add() method", () => {
 		keyboard
 			.columns(2)
 			.add(buttons[0], buttons[1])
-			.row(false)
+			.row()
 			.add(buttons[2], buttons[3]);
 
 		expect(keyboard["rows"]).toEqual([
@@ -282,26 +282,44 @@ describe("BaseKeyboardConstructor - add() method", () => {
 		expect(keyboard["currentRow"]).toEqual([]);
 	});
 
-	test("should reset helper state after row()", () => {
+	test("should not reset helper state after row()", () => {
 		const keyboard = new BaseKeyboardConstructor<TestButton>();
 		const buttons = [
 			createTestButton("1"),
 			createTestButton("2"),
 			createTestButton("3"),
 			createTestButton("4"),
+			createTestButton("5"),
 		];
 
 		keyboard
 			.columns(2)
 			.add(buttons[0], buttons[1])
 			.row()
-			.add(buttons[2], buttons[3]);
+			.add(buttons[2], buttons[3], buttons[4]);
 
 		console.log(keyboard["rows"]);
 
-		expect(keyboard["rows"]).toEqual([
+		expect(keyboard["keyboard"]).toEqual([
 			[buttons[0], buttons[1]],
 			[buttons[2], buttons[3]],
+			[buttons[4]],
+		]);
+	});
+
+	test("should reset helpers", () => {
+		const keyboard = new BaseKeyboardConstructor<TestButton>()
+			.columns(2)
+			.add(createTestButton("1"), createTestButton("2"))
+			.resetHelpers()
+			.add(createTestButton("3"), createTestButton("4"), createTestButton("5"));
+
+		expect(keyboard["appliedHelper"]).toBeUndefined();
+		expect(keyboard["appliedFilter"]).toBeUndefined();
+
+		expect(keyboard["keyboard"]).toEqual([
+			[createTestButton("1"), createTestButton("2")],
+			[createTestButton("3"), createTestButton("4"), createTestButton("5")],
 		]);
 	});
 });

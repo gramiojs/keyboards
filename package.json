@@ -1,6 +1,6 @@
 {
 	"name": "@gramio/keyboards",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Framework-agnostic Telegram bot keyboard builder with many cool features!",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.js",

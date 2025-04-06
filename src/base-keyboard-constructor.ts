@@ -60,12 +60,11 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("second row", "payload");
 	 * ```
 	 */
-	public row(removeAppliedHelper = true) {
+	public row() {
 		if (!this.currentRow.length) return this;
 
 		this.rows.push(this.currentRow);
 		this.currentRow = [];
-		if (removeAppliedHelper) this.appliedHelper = undefined;
 
 		return this;
 	}
@@ -183,7 +182,7 @@ export class BaseKeyboardConstructor<T> {
 					this.currentRow.push(button);
 
 					if (this.currentRow.length === this.appliedHelper.columns) {
-						this.row(false);
+						this.row();
 					}
 				}
 			} else if (this.appliedHelper?.type === "wrap") {
@@ -199,7 +198,7 @@ export class BaseKeyboardConstructor<T> {
 							rowIndex: this.rows.length - 1,
 						})
 					) {
-						this.row(false);
+						this.row();
 					}
 				}
 			} else if (this.appliedHelper?.type === "pattern") {
@@ -211,7 +210,7 @@ export class BaseKeyboardConstructor<T> {
 						this.appliedHelper &&
 						this.currentRow.length >= this.appliedHelper.pattern[0]
 					) {
-						this.row(false);
+						this.row();
 						this.appliedHelper.pattern.shift();
 						if (this.appliedHelper.pattern.length === 0)
 							this.appliedHelper = undefined;
@@ -299,6 +298,13 @@ export class BaseKeyboardConstructor<T> {
 
 			this.row();
 		}
+
+		return this;
+	}
+
+	public resetHelpers() {
+		this.appliedHelper = undefined;
+		this.appliedFilter = undefined;
 
 		return this;
 	}
