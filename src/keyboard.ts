@@ -6,6 +6,7 @@ import type {
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor.js";
+import type { ButtonOptions } from "./utils.js";
 
 /**
  * **ReplyKeyboardMarkup** builder
@@ -30,15 +31,15 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some button text");
 	 * ```
 	 */
-	text(text: string) {
-		return this.add(Keyboard.text(text));
+	text(text: string, options?: ButtonOptions) {
+		return this.add(Keyboard.text(text, options));
 	}
 
 	/**
 	 * Text of the button. It will be sent as a message when the button is pressed
 	 */
-	static text(text: string): TelegramKeyboardButton {
-		return { text };
+	static text(text: string, options?: ButtonOptions): TelegramKeyboardButton {
+		return { text, ...options };
 	}
 
 	/**
@@ -54,8 +55,9 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		text: string,
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
+		buttonOptions?: ButtonOptions,
 	) {
-		return this.add(Keyboard.requestUsers(text, requestId, options));
+		return this.add(Keyboard.requestUsers(text, requestId, options, buttonOptions));
 	}
 
 	/**
@@ -65,6 +67,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		text: string,
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
+		buttonOptions?: ButtonOptions,
 	): TelegramKeyboardButton {
 		return {
 			text,
@@ -72,6 +75,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 				...options,
 				request_id: requestId,
 			},
+			...buttonOptions,
 		};
 	}
 
@@ -91,8 +95,9 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			TelegramKeyboardButtonRequestChat,
 			"request_id" | "chat_is_channel"
 		> & { chat_is_channel?: boolean },
+		buttonOptions?: ButtonOptions,
 	) {
-		return this.add(Keyboard.requestChat(text, requestId, options));
+		return this.add(Keyboard.requestChat(text, requestId, options, buttonOptions));
 	}
 
 	/**
@@ -105,6 +110,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			TelegramKeyboardButtonRequestChat,
 			"request_id" | "chat_is_channel"
 		> & { chat_is_channel?: boolean },
+		buttonOptions?: ButtonOptions,
 	): TelegramKeyboardButton {
 		return {
 			text,
@@ -114,6 +120,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 				...options,
 				request_id: requestId,
 			},
+			...buttonOptions,
 		};
 	}
 
@@ -124,17 +131,18 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().requestContact("some button text");
 	 * ```
 	 */
-	requestContact(text: string) {
-		return this.add(Keyboard.requestContact(text));
+	requestContact(text: string, options?: ButtonOptions) {
+		return this.add(Keyboard.requestContact(text, options));
 	}
 
 	/**
 	 * If *True*, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only.
 	 */
-	static requestContact(text: string): TelegramKeyboardButton {
+	static requestContact(text: string, options?: ButtonOptions): TelegramKeyboardButton {
 		return {
 			text,
 			request_contact: true,
+			...options,
 		};
 	}
 
@@ -145,17 +153,18 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().requestLocation("some button text");
 	 * ```
 	 */
-	requestLocation(text: string) {
-		return this.add(Keyboard.requestLocation(text));
+	requestLocation(text: string, options?: ButtonOptions) {
+		return this.add(Keyboard.requestLocation(text, options));
 	}
 
 	/**
 	 * If *True*, the user's current location will be sent when the button is pressed. Available in private chats only.
 	 */
-	static requestLocation(text: string): TelegramKeyboardButton {
+	static requestLocation(text: string, options?: ButtonOptions): TelegramKeyboardButton {
 		return {
 			text,
 			request_location: true,
+			...options,
 		};
 	}
 
@@ -168,8 +177,12 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().requestPoll("some button text", "quiz");
 	 * ```
 	 */
-	requestPoll(text: string, type?: TelegramKeyboardButtonPollType["type"]) {
-		return this.add(Keyboard.requestPoll(text, type));
+	requestPoll(
+		text: string,
+		type?: TelegramKeyboardButtonPollType["type"],
+		options?: ButtonOptions,
+	) {
+		return this.add(Keyboard.requestPoll(text, type, options));
 	}
 
 	/**
@@ -180,12 +193,14 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	static requestPoll(
 		text: string,
 		type?: TelegramKeyboardButtonPollType["type"],
+		options?: ButtonOptions,
 	): TelegramKeyboardButton {
 		return {
 			text,
 			request_poll: {
 				type,
 			},
+			...options,
 		};
 	}
 
@@ -196,19 +211,20 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().webApp("some button text", "https://...");
 	 * ```
 	 */
-	webApp(text: string, url: string) {
-		return this.add(Keyboard.webApp(text, url));
+	webApp(text: string, url: string, options?: ButtonOptions) {
+		return this.add(Keyboard.webApp(text, url, options));
 	}
 
 	/**
 	 * If specified, the described [Web App](https://core.telegram.org/bots/webapps) will be launched when the button is pressed. The Web App will be able to send a “web\_app\_data” service message. Available in private chats only.
 	 */
-	static webApp(text: string, url: string): TelegramKeyboardButton {
+	static webApp(text: string, url: string, options?: ButtonOptions): TelegramKeyboardButton {
 		return {
 			text,
 			web_app: {
 				url,
 			},
+			...options,
 		};
 	}
 

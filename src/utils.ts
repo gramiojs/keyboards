@@ -1,3 +1,8 @@
+export interface ButtonOptions {
+	style?: "danger" | "primary" | "success";
+	icon_custom_emoji_id?: string;
+}
+
 export interface KeyboardFeatureFlags {
 	enableSetterKeyboardHelpers: boolean;
 }

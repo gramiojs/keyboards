@@ -8,6 +8,7 @@ import type {
 	TelegramWebAppInfo,
 } from "@gramio/types";
 import { BaseKeyboardConstructor } from "./base-keyboard-constructor.ts";
+import type { ButtonOptions } from "./utils.ts";
 
 // types compatibility layer with https://github.com/grammyjs/types/blob/fbbb7c54c0b67cd9e168d5584b0e993d05db3fe3/markup.ts#L10
 declare namespace InlineKeyboardButton {
@@ -85,8 +86,8 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * }); // it uses JSON.stringify
 	 * ```
 	 */
-	text(text: string, payload: string | Record<string, unknown>) {
-		return this.add(InlineKeyboard.text(text, payload));
+	text(text: string, payload: string | Record<string, unknown>, options?: ButtonOptions) {
+		return this.add(InlineKeyboard.text(text, payload, options));
 	}
 
 	/**
@@ -95,11 +96,13 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	static text(
 		text: string,
 		payload: string | Record<string, unknown>,
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
 			callback_data:
 				typeof payload === "object" ? JSON.stringify(payload) : payload,
+			...options,
 		};
 	}
 
@@ -110,17 +113,18 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().url("GitHub", "https://github.com/gramiojs/gramio");
 	 * ```
 	 */
-	url(text: string, url: string) {
-		return this.add(InlineKeyboard.url(text, url));
+	url(text: string, url: string, options?: ButtonOptions) {
+		return this.add(InlineKeyboard.url(text, url, options));
 	}
 
 	/**
 	 * HTTP or tg:// URL to be opened when the button is pressed. Links `tg://user?id=<user_id>` can be used to mention a user by their identifier without using a username, if this is allowed by their privacy settings.
 	 */
-	static url(text: string, url: string): TelegramInlineKeyboardButton {
+	static url(text: string, url: string, options?: ButtonOptions): TelegramInlineKeyboardButton {
 		return {
 			text,
 			url,
+			...options,
 		};
 	}
 
@@ -131,17 +135,18 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().webApp("some text", "https://...");
 	 * ```
 	 */
-	webApp(text: string, url: string) {
-		return this.add(InlineKeyboard.webApp(text, url));
+	webApp(text: string, url: string, options?: ButtonOptions) {
+		return this.add(InlineKeyboard.webApp(text, url, options));
 	}
 
 	/**
 	 *  Description of the [Web App](https://core.telegram.org/bots/webapps) that will be launched when the user presses the button. The Web App will be able to send an arbitrary message on behalf of the user using the method [answerWebAppQuery](https://core.telegram.org/bots/api/#answerwebappquery). Available only in private chats between a user and the bot.
 	 */
-	static webApp(text: string, url: string): TelegramInlineKeyboardButton {
+	static webApp(text: string, url: string, options?: ButtonOptions): TelegramInlineKeyboardButton {
 		return {
 			text,
 			web_app: { url },
+			...options,
 		};
 	}
 
@@ -157,8 +162,8 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *});
 	 * ```
 	 */
-	login(text: string, url: string | TelegramLoginUrl) {
-		return this.add(InlineKeyboard.login(text, url));
+	login(text: string, url: string | TelegramLoginUrl, options?: ButtonOptions) {
+		return this.add(InlineKeyboard.login(text, url, options));
 	}
 
 	/**
@@ -167,10 +172,12 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	static login(
 		text: string,
 		url: string | TelegramLoginUrl,
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
 			login_url: typeof url === "string" ? { url } : url,
+			...options,
 		};
 	}
 
@@ -183,13 +190,13 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().pay("5 coins");
 	 * ```
 	 */
-	pay(text: string) {
+	pay(text: string, options?: ButtonOptions) {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
 				"This type of button must always be the first button in the first row and can only be used in invoice messages.",
 			);
 
-		return this.add(InlineKeyboard.pay(text));
+		return this.add(InlineKeyboard.pay(text, options));
 	}
 
 	/**
@@ -197,10 +204,11 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *
 	 * **NOTE:** This type of button **must** always be the first button in the first row and can only be used in invoice messages.
 	 */
-	static pay(text: string): TelegramInlineKeyboardButton {
+	static pay(text: string, options?: ButtonOptions): TelegramInlineKeyboardButton {
 		return {
 			text,
 			pay: true,
+			...options,
 		};
 	}
 
@@ -215,8 +223,8 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().switchToChat("Select chat", "InlineQuery");
 	 * ```
 	 */
-	switchToChat(text: string, query = "") {
-		return this.add(InlineKeyboard.switchToChat(text, query));
+	switchToChat(text: string, query = "", options?: ButtonOptions) {
+		return this.add(InlineKeyboard.switchToChat(text, query, options));
 	}
 
 	/**
@@ -224,10 +232,11 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *
 	 * By default empty, in which case just the bot's username will be inserted.
 	 */
-	static switchToChat(text: string, query = ""): TelegramInlineKeyboardButton {
+	static switchToChat(text: string, query = "", options?: ButtonOptions): TelegramInlineKeyboardButton {
 		return {
 			text,
 			switch_inline_query: query,
+			...options,
 		};
 	}
 
@@ -251,8 +260,9 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	switchToChosenChat(
 		text: string,
 		query: string | TelegramSwitchInlineQueryChosenChat = "",
+		options?: ButtonOptions,
 	) {
-		return this.add(InlineKeyboard.switchToChosenChat(text, query));
+		return this.add(InlineKeyboard.switchToChosenChat(text, query, options));
 	}
 
 	/**
@@ -261,11 +271,13 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	static switchToChosenChat(
 		text: string,
 		query: string | TelegramSwitchInlineQueryChosenChat = "",
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
 			switch_inline_query_chosen_chat:
 				typeof query === "string" ? { query } : query,
+			...options,
 		};
 	}
 
@@ -280,8 +292,8 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().switchToChosenChat("Open Inline mod", "InlineQuery");
 	 * ```
 	 */
-	switchToCurrentChat(text: string, query = "") {
-		return this.add(InlineKeyboard.switchToCurrentChat(text, query));
+	switchToCurrentChat(text: string, query = "", options?: ButtonOptions) {
+		return this.add(InlineKeyboard.switchToCurrentChat(text, query, options));
 	}
 
 	/**
@@ -292,8 +304,9 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	static switchToCurrentChat(
 		text: string,
 		query = "",
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
-		return { text, switch_inline_query_current_chat: query };
+		return { text, switch_inline_query_current_chat: query, ...options };
 	}
 
 	/**
@@ -305,13 +318,13 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().game("text", ???);
 	 * ```
 	 */
-	game(text: string, gameOptions: TelegramCallbackGame = {}) {
+	game(text: string, gameOptions: TelegramCallbackGame = {}, options?: ButtonOptions) {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
 				"This type of button must always be the first button in the first row.",
 			);
 
-		return this.add(InlineKeyboard.game(text, gameOptions));
+		return this.add(InlineKeyboard.game(text, gameOptions, options));
 	}
 
 	/**
@@ -322,25 +335,29 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	static game(
 		text: string,
 		gameOptions: TelegramCallbackGame = {},
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
 			callback_game: gameOptions,
+			...options,
 		};
 	}
 
-	copy(text: string, textToCopy: string | TelegramCopyTextButton) {
-		return this.add(InlineKeyboard.copy(text, textToCopy));
+	copy(text: string, textToCopy: string | TelegramCopyTextButton, options?: ButtonOptions) {
+		return this.add(InlineKeyboard.copy(text, textToCopy, options));
 	}
 
 	static copy(
 		text: string,
 		textToCopy: string | TelegramCopyTextButton,
+		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return {
 			text,
 			copy_text:
 				typeof textToCopy === "string" ? { text: textToCopy } : textToCopy,
+			...options,
 		};
 	}
 
