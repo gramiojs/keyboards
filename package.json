@@ -42,7 +42,7 @@
 		"typescript": "^5.9.3"
 	},
 	"dependencies": {
-		"@gramio/types": "^9.3.1"
+		"@gramio/types": ">=9.5.0"
 	},
 	"license": "MIT",
 	"files": ["dist"]
