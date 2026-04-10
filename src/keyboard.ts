@@ -2,6 +2,7 @@ import type {
 	TelegramKeyboardButton,
 	TelegramKeyboardButtonPollType,
 	TelegramKeyboardButtonRequestChat,
+	TelegramKeyboardButtonRequestManagedBot,
 	TelegramKeyboardButtonRequestUsers,
 	TelegramReplyKeyboardMarkup,
 } from "@gramio/types";
@@ -117,6 +118,46 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			request_chat: {
 				// [INFO] Why not false by default?
 				chat_is_channel: false,
+				...options,
+				request_id: requestId,
+			},
+			...buttonOptions,
+		};
+	}
+
+	/**
+	 * If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the [@BotFather](https://t.me/BotFather) Mini App. Available in private chats only.
+	 * @example
+	 * ```ts
+	 * new Keyboard().requestManagedBot("some button text", 123, {
+	 *     suggested_name: "My Bot",
+	 *     suggested_username: "my_bot",
+	 * });
+	 * ```
+	 */
+	requestManagedBot(
+		text: string,
+		requestId: number,
+		options: Omit<TelegramKeyboardButtonRequestManagedBot, "request_id"> = {},
+		buttonOptions?: ButtonOptions,
+	) {
+		return this.add(
+			Keyboard.requestManagedBot(text, requestId, options, buttonOptions),
+		);
+	}
+
+	/**
+	 * If specified, pressing the button will ask the user to create and share a bot that will be managed by the current bot. Available for bots that enabled management of other bots in the [@BotFather](https://t.me/BotFather) Mini App. Available in private chats only.
+	 */
+	static requestManagedBot(
+		text: string,
+		requestId: number,
+		options: Omit<TelegramKeyboardButtonRequestManagedBot, "request_id"> = {},
+		buttonOptions?: ButtonOptions,
+	): TelegramKeyboardButton {
+		return {
+			text,
+			request_managed_bot: {
 				...options,
 				request_id: requestId,
 			},

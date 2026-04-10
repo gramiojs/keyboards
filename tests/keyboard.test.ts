@@ -153,6 +153,10 @@ describe("Keyboard", () => {
 			.requestUsers("test", 666, {
 				user_is_premium: true,
 			})
+			.requestManagedBot("managed", 777, {
+				suggested_name: "My Bot",
+				suggested_username: "my_bot",
+			})
 			.build();
 
 		expect(keyboard).toEqual([
@@ -187,6 +191,14 @@ describe("Keyboard", () => {
 						user_is_premium: true,
 					},
 					text: "test",
+				},
+				{
+					request_managed_bot: {
+						request_id: 777,
+						suggested_name: "My Bot",
+						suggested_username: "my_bot",
+					},
+					text: "managed",
 				},
 			],
 		]);

@@ -5,7 +5,7 @@
     "": {
       "name": "@gramio/keyboards",
       "dependencies": {
-        "@gramio/types": ">=9.5.0",
+        "@gramio/types": ">=9.6.0",
       },
       "devDependencies": {
         "@biomejs/biome": "2.3.14",
@@ -86,7 +86,7 @@
 
     "@esbuild/win32-x64": ["@esbuild/win32-x64@0.26.0", "", { "os": "win32", "cpu": "x64" }, "sha512-WAckBKaVnmFqbEhbymrPK7M086DQMpL1XoRbpmN0iW8k5JSXjDRQBhcZNa0VweItknLq9eAeCL34jK7/CDcw7A=="],
 
-    "@gramio/types": ["@gramio/types@9.5.0", "", {}, "sha512-bpOxXjtsabZpm2TTvr0QA4XJKPVeIoN0scMFuViUaLb1FbtQ+yp4hGz0XUKHVUTr39TzPV4ICANNX5b5uMtTKw=="],
+    "@gramio/types": ["@gramio/types@9.6.1", "", {}, "sha512-O/tJgU98oiCVcQHXO/yyJgEn5DpIZr/OiuRp3CxIGynRLK2doWguOR+jlRZQNMR5sx5VTVBBCAPRNRJ8qBLEKw=="],
 
     "@jridgewell/sourcemap-codec": ["@jridgewell/sourcemap-codec@1.5.5", "", {}, "sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og=="],
 
