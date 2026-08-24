@@ -8,7 +8,7 @@ import type { TelegramForceReply } from "@gramio/types";
  * {@link https://core.telegram.org/bots/api/#forcereply | [Documentation]}
  */
 export class ForceReplyKeyboard {
-	options = {
+	options: { isSelective: boolean; placeholder: string | undefined; } = {
 		isSelective: false,
 		placeholder: undefined as string | undefined,
 	};
@@ -21,7 +21,7 @@ export class ForceReplyKeyboard {
 	 * new ForceReplyKeyboard().selective(false); // to disable
 	 * ```
 	 */
-	selective(isEnabled = true) {
+	selective(isEnabled: boolean = true): this {
 		this.options.isSelective = isEnabled;
 
 		return this;
@@ -35,7 +35,7 @@ export class ForceReplyKeyboard {
 	 * new Keyboard().placeholder(); // to disable
 	 * ```
 	 */
-	placeholder(value?: string) {
+	placeholder(value?: string): this {
 		this.options.placeholder = value;
 
 		return this;
@@ -44,7 +44,7 @@ export class ForceReplyKeyboard {
 	/**
 	 * Return {@link TelegramForceReply} as JSON
 	 */
-	build() {
+	build(): TelegramForceReply {
 		return this.toJSON();
 	}
 

@@ -18,6 +18,13 @@ describe("Keyboard", () => {
 		expect(keyboard).toEqual([[{ text: "test text" }]]);
 	});
 
+	test("Keyboard force reply", () => {
+		expect(new Keyboard().text("Reply").forceReply().build().force_reply).toBe(
+			true,
+		);
+		expect(new Keyboard().forceReply(false).build().force_reply).toBe(false);
+	});
+
 	test("Keyboard with row", () => {
 		const { keyboard } = new Keyboard()
 			.row()

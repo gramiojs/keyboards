@@ -8,7 +8,7 @@ import type { TelegramReplyKeyboardRemove } from "@gramio/types";
  * {@link https://core.telegram.org/bots/api/#replykeyboardremove | [Documentation]}
  */
 export class RemoveKeyboard {
-	options = {
+	options: { isSelective: boolean; } = {
 		isSelective: false,
 	};
 
@@ -22,7 +22,7 @@ export class RemoveKeyboard {
 	 * new RemoveKeyboard().selective(false); // to disable
 	 * ```
 	 */
-	selective(isEnabled = true) {
+	selective(isEnabled: boolean = true): this {
 		this.options.isSelective = isEnabled;
 
 		return this;
@@ -31,7 +31,7 @@ export class RemoveKeyboard {
 	/**
 	 * Return {@link TelegramReplyKeyboardRemove} as object
 	 */
-	build() {
+	build(): TelegramReplyKeyboardRemove {
 		return this.toJSON();
 	}
 

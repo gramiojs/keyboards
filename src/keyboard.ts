@@ -17,11 +17,12 @@ import type { ButtonOptions } from "./utils.js";
  * {@link https://core.telegram.org/bots/api/#replykeyboardmarkup | [Documentation]}
  */
 export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
-	options = {
+	options: { isOneTime: boolean; isPersistent: boolean; isResized: boolean; isSelective: boolean; forceReply: boolean | undefined; placeholder: string | undefined; } = {
 		isOneTime: false,
 		isPersistent: false,
 		isResized: true,
 		isSelective: false,
+		forceReply: undefined as boolean | undefined,
 		placeholder: undefined as string | undefined,
 	};
 
@@ -32,7 +33,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some button text");
 	 * ```
 	 */
-	text(text: string, options?: ButtonOptions) {
+	text(text: string, options?: ButtonOptions): this {
 		return this.add(Keyboard.text(text, options));
 	}
 
@@ -57,7 +58,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestUsers, "request_id"> = {},
 		buttonOptions?: ButtonOptions,
-	) {
+	): this {
 		return this.add(Keyboard.requestUsers(text, requestId, options, buttonOptions));
 	}
 
@@ -97,7 +98,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			"request_id" | "chat_is_channel"
 		> & { chat_is_channel?: boolean },
 		buttonOptions?: ButtonOptions,
-	) {
+	): this {
 		return this.add(Keyboard.requestChat(text, requestId, options, buttonOptions));
 	}
 
@@ -140,7 +141,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		requestId: number,
 		options: Omit<TelegramKeyboardButtonRequestManagedBot, "request_id"> = {},
 		buttonOptions?: ButtonOptions,
-	) {
+	): this {
 		return this.add(
 			Keyboard.requestManagedBot(text, requestId, options, buttonOptions),
 		);
@@ -172,7 +173,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().requestContact("some button text");
 	 * ```
 	 */
-	requestContact(text: string, options?: ButtonOptions) {
+	requestContact(text: string, options?: ButtonOptions): this {
 		return this.add(Keyboard.requestContact(text, options));
 	}
 
@@ -194,7 +195,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().requestLocation("some button text");
 	 * ```
 	 */
-	requestLocation(text: string, options?: ButtonOptions) {
+	requestLocation(text: string, options?: ButtonOptions): this {
 		return this.add(Keyboard.requestLocation(text, options));
 	}
 
@@ -222,7 +223,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 		text: string,
 		type?: TelegramKeyboardButtonPollType["type"],
 		options?: ButtonOptions,
-	) {
+	): this {
 		return this.add(Keyboard.requestPoll(text, type, options));
 	}
 
@@ -252,7 +253,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().webApp("some button text", "https://...");
 	 * ```
 	 */
-	webApp(text: string, url: string, options?: ButtonOptions) {
+	webApp(text: string, url: string, options?: ButtonOptions): this {
 		return this.add(Keyboard.webApp(text, url, options));
 	}
 
@@ -277,7 +278,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some text").oneTime(false); // to disable
 	 * ```
 	 */
-	oneTime(isEnabled = true) {
+	oneTime(isEnabled: boolean = true): this {
 		this.options.isOneTime = isEnabled;
 
 		return this;
@@ -291,7 +292,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some text").persistent(false); // to disable
 	 * ```
 	 */
-	persistent(isEnabled = true) {
+	persistent(isEnabled: boolean = true): this {
 		this.options.isPersistent = isEnabled;
 
 		return this;
@@ -305,7 +306,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some text").placeholder(); // to disable
 	 * ```
 	 */
-	placeholder(value?: string) {
+	placeholder(value?: string): this {
 		this.options.placeholder = value;
 
 		return this;
@@ -321,7 +322,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some text").resized(false); // to disable
 	 * ```
 	 */
-	resized(isEnabled = true) {
+	resized(isEnabled: boolean = true): this {
 		this.options.isResized = isEnabled;
 
 		return this;
@@ -337,9 +338,15 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	 * new Keyboard().text("some text").selective(false); // to disable
 	 * ```
 	 */
-	selective(isEnabled = true) {
+	selective(isEnabled: boolean = true): this {
 		this.options.isSelective = isEnabled;
 
+		return this;
+	}
+
+	/** Show the reply interface together with this reply keyboard. */
+	forceReply(enabled: boolean = true): this {
+		this.options.forceReply = enabled;
 		return this;
 	}
 
@@ -359,7 +366,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			| TelegramKeyboardButton[][]
 			| TelegramReplyKeyboardMarkup
 			| { toJSON: () => TelegramReplyKeyboardMarkup },
-	) {
+	): this {
 		const json = "toJSON" in keyboard ? keyboard.toJSON() : keyboard;
 
 		const buttons = Array.isArray(json) ? json : json.keyboard;
@@ -374,7 +381,7 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 	/**
 	 * Return {@link TelegramReplyKeyboardMarkup} as object
 	 */
-	build() {
+	build(): TelegramReplyKeyboardMarkup {
 		return this.toJSON();
 	}
 
@@ -389,6 +396,9 @@ export class Keyboard extends BaseKeyboardConstructor<TelegramKeyboardButton> {
 			input_field_placeholder: this.options.placeholder,
 			selective: this.options.isSelective,
 			resize_keyboard: this.options.isResized,
+			...(this.options.forceReply === undefined
+				? {}
+				: { force_reply: this.options.forceReply }),
 		};
 	}
 }

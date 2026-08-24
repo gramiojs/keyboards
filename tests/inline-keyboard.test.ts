@@ -18,6 +18,23 @@ describe("InlineKeyboard", () => {
 		]);
 	});
 
+	test("disabled button and force reply", () => {
+		expect(
+			new InlineKeyboard()
+				.disabled("Unavailable", { style: "primary" })
+				.forceReply()
+				.build(),
+		).toEqual({
+			inline_keyboard: [
+				[{ text: "Unavailable", disabled: {}, style: "primary" }],
+			],
+			force_reply: true,
+		});
+		expect(new InlineKeyboard().forceReply(false).build().force_reply).toBe(
+			false,
+		);
+	});
+
 	test("with row", () => {
 		const { inline_keyboard } = new InlineKeyboard()
 			.text("gramio", "test")

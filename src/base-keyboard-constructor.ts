@@ -14,13 +14,13 @@ import {
 export class BaseKeyboardConstructor<T> {
 	protected rows: T[][] = [];
 	protected currentRow: T[] = [];
-	protected featureFlags = keyboardsFeatureFlagsMap;
+	protected featureFlags: KeyboardFeatureFlags = keyboardsFeatureFlagsMap;
 
 	constructor(featureFlags?: KeyboardFeatureFlags) {
 		this.featureFlags = featureFlags ?? keyboardsFeatureFlagsMap;
 	}
 
-	private wrapOptions = {
+	private wrapOptions: { columns: number | undefined; fn: ButtonsIterator<T> | undefined; filter: ButtonsIterator<T> | undefined; pattern: number[] | undefined; } = {
 		columns: undefined as number | undefined,
 		fn: undefined as ButtonsIterator<T> | undefined,
 		filter: undefined as ButtonsIterator<T> | undefined,
@@ -31,7 +31,7 @@ export class BaseKeyboardConstructor<T> {
 	// Can be combined with other helpers
 	private appliedFilter: ButtonsIterator<T> | undefined;
 
-	protected get keyboard() {
+	protected get keyboard(): T[][] {
 		let keyboard = this.currentRow.length
 			? [...this.rows, this.currentRow]
 			: this.rows;
@@ -60,7 +60,7 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("second row", "payload");
 	 * ```
 	 */
-	public row() {
+	public row(): this {
 		if (!this.currentRow.length) return this;
 
 		this.rows.push(this.currentRow);
@@ -80,7 +80,7 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("third row", "payload");
 	 * ```
 	 */
-	public columns(length?: number) {
+	public columns(length?: number): this {
 		this.wrapOptions.columns = length;
 
 		if (length) this.appliedHelper = { type: "columns", columns: length };
@@ -100,7 +100,7 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("second row", "2");
 	 * ```
 	 */
-	public wrap(fn?: ButtonsIterator<T>) {
+	public wrap(fn?: ButtonsIterator<T>): this {
 		this.wrapOptions.fn = fn;
 
 		if (fn) this.appliedHelper = { type: "wrap", fn };
@@ -120,7 +120,7 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("button", "pass");
 	 * ```
 	 */
-	public filter(fn?: ButtonsIterator<T>) {
+	public filter(fn?: ButtonsIterator<T>): this {
 		this.wrapOptions.filter = fn;
 
 		this.appliedFilter = fn;
@@ -142,7 +142,7 @@ export class BaseKeyboardConstructor<T> {
 	 *     .text("3", "payload");
 	 * ```
 	 */
-	public pattern(pattern?: number[]) {
+	public pattern(pattern?: number[]): this {
 		this.wrapOptions.pattern = pattern;
 
 		if (pattern) this.appliedHelper = { type: "pattern", pattern };
@@ -164,7 +164,7 @@ export class BaseKeyboardConstructor<T> {
 	 * ```
 	 */
 	// TODO: cleanup and refactor
-	public add(...buttons: T[]) {
+	public add(...buttons: T[]): this {
 		if (this.featureFlags.enableSetterKeyboardHelpers) {
 			const applyFilter = this.appliedFilter
 				? (button: T) =>
@@ -254,7 +254,7 @@ export class BaseKeyboardConstructor<T> {
 			| ((options: { rowIndex: number; index: number }) => boolean)
 			| boolean,
 		...buttons: T[]
-	) {
+	): this {
 		const isShow =
 			typeof condition === "boolean"
 				? condition
@@ -284,7 +284,7 @@ export class BaseKeyboardConstructor<T> {
 	 *);
 	 * ```
 	 */
-	public matrix(rows: number, columns: number, fn: CreateButtonIterator<T>) {
+	public matrix(rows: number, columns: number, fn: CreateButtonIterator<T>): this {
 		if (rows < 1 || columns < 1)
 			throw new Error("The number of rows and columns must be greater than 0");
 
@@ -302,7 +302,7 @@ export class BaseKeyboardConstructor<T> {
 		return this;
 	}
 
-	public resetHelpers() {
+	public resetHelpers(): this {
 		this.appliedHelper = undefined;
 		this.appliedFilter = undefined;
 

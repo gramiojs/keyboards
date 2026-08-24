@@ -36,7 +36,7 @@ import { InlineQueryResultCached } from "./cached-result.js";
  */
 export class InlineQueryResult {
 	/** Cached result of InlineQuery builder. */
-	static cached = InlineQueryResultCached;
+	static cached: typeof InlineQueryResultCached = InlineQueryResultCached;
 
 	/**
 	 * Represents a link to an article or web page.

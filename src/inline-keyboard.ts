@@ -65,6 +65,7 @@ interface TelegramInlineKeyboardMarkupFix {
 		| InlineKeyboardButton.UrlButton
 		| InlineKeyboardButton.WebAppButton
 	)[][];
+	force_reply?: boolean;
 }
 
 /**
@@ -75,6 +76,14 @@ interface TelegramInlineKeyboardMarkupFix {
  * {@link https://core.telegram.org/bots/api/#inlinekeyboardmarkup | [Documentation]}
  */
 export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboardButton> {
+	private forceReplyEnabled: boolean | undefined;
+
+	/** Show the reply interface together with this inline keyboard. */
+	forceReply(enabled: boolean = true): this {
+		this.forceReplyEnabled = enabled;
+		return this;
+	}
+
 	/**
 	 * Text button with data to be sent in a [callback query](https://core.telegram.org/bots/api/#callbackquery) to the bot when button is pressed, 1-64 bytes
 	 * @example
@@ -86,7 +95,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * }); // it uses JSON.stringify
 	 * ```
 	 */
-	text(text: string, payload: string | Record<string, unknown>, options?: ButtonOptions) {
+	text(text: string, payload: string | Record<string, unknown>, options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.text(text, payload, options));
 	}
 
@@ -113,7 +122,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().url("GitHub", "https://github.com/gramiojs/gramio");
 	 * ```
 	 */
-	url(text: string, url: string, options?: ButtonOptions) {
+	url(text: string, url: string, options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.url(text, url, options));
 	}
 
@@ -135,7 +144,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().webApp("some text", "https://...");
 	 * ```
 	 */
-	webApp(text: string, url: string, options?: ButtonOptions) {
+	webApp(text: string, url: string, options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.webApp(text, url, options));
 	}
 
@@ -162,7 +171,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *});
 	 * ```
 	 */
-	login(text: string, url: string | TelegramLoginUrl, options?: ButtonOptions) {
+	login(text: string, url: string | TelegramLoginUrl, options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.login(text, url, options));
 	}
 
@@ -190,7 +199,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().pay("5 coins");
 	 * ```
 	 */
-	pay(text: string, options?: ButtonOptions) {
+	pay(text: string, options?: ButtonOptions): this {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
 				"This type of button must always be the first button in the first row and can only be used in invoice messages.",
@@ -223,7 +232,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().switchToChat("Select chat", "InlineQuery");
 	 * ```
 	 */
-	switchToChat(text: string, query = "", options?: ButtonOptions) {
+	switchToChat(text: string, query: string = "", options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.switchToChat(text, query, options));
 	}
 
@@ -232,7 +241,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 *
 	 * By default empty, in which case just the bot's username will be inserted.
 	 */
-	static switchToChat(text: string, query = "", options?: ButtonOptions): TelegramInlineKeyboardButton {
+	static switchToChat(text: string, query: string = "", options?: ButtonOptions): TelegramInlineKeyboardButton {
 		return {
 			text,
 			switch_inline_query: query,
@@ -261,7 +270,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		text: string,
 		query: string | TelegramSwitchInlineQueryChosenChat = "",
 		options?: ButtonOptions,
-	) {
+	): this {
 		return this.add(InlineKeyboard.switchToChosenChat(text, query, options));
 	}
 
@@ -292,7 +301,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().switchToChosenChat("Open Inline mod", "InlineQuery");
 	 * ```
 	 */
-	switchToCurrentChat(text: string, query = "", options?: ButtonOptions) {
+	switchToCurrentChat(text: string, query: string = "", options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.switchToCurrentChat(text, query, options));
 	}
 
@@ -303,7 +312,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 */
 	static switchToCurrentChat(
 		text: string,
-		query = "",
+		query: string = "",
 		options?: ButtonOptions,
 	): TelegramInlineKeyboardButton {
 		return { text, switch_inline_query_current_chat: query, ...options };
@@ -318,7 +327,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	 * new InlineKeyboard().game("text", ???);
 	 * ```
 	 */
-	game(text: string, gameOptions: TelegramCallbackGame = {}, options?: ButtonOptions) {
+	game(text: string, gameOptions: TelegramCallbackGame = {}, options?: ButtonOptions): this {
 		if (this.rows.length || this.currentRow.length)
 			throw new Error(
 				"This type of button must always be the first button in the first row.",
@@ -344,7 +353,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		};
 	}
 
-	copy(text: string, textToCopy: string | TelegramCopyTextButton, options?: ButtonOptions) {
+	copy(text: string, textToCopy: string | TelegramCopyTextButton, options?: ButtonOptions): this {
 		return this.add(InlineKeyboard.copy(text, textToCopy, options));
 	}
 
@@ -357,6 +366,23 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 			text,
 			copy_text:
 				typeof textToCopy === "string" ? { text: textToCopy } : textToCopy,
+			...options,
+		};
+	}
+
+	/** Add a button that is visible but can't be pressed. */
+	disabled(text: string, options?: ButtonOptions): this {
+		return this.add(InlineKeyboard.disabled(text, options));
+	}
+
+	/** Create a button that is visible but can't be pressed. */
+	static disabled(
+		text: string,
+		options?: ButtonOptions,
+	): TelegramInlineKeyboardButton {
+		return {
+			text,
+			disabled: {},
 			...options,
 		};
 	}
@@ -382,7 +408,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 			| TelegramInlineKeyboardButton[][]
 			| TelegramInlineKeyboardMarkup
 			| { toJSON: () => TelegramInlineKeyboardMarkup },
-	) {
+	): this {
 		const json = "toJSON" in keyboard ? keyboard.toJSON() : keyboard;
 
 		const buttons = Array.isArray(json) ? json : json.inline_keyboard;
@@ -397,7 +423,7 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 	/**
 	 * Return {@link TelegramInlineKeyboardMarkup} as JSON
 	 */
-	build() {
+	build(): TelegramInlineKeyboardMarkupFix {
 		return this.toJSON();
 	}
 
@@ -408,6 +434,9 @@ export class InlineKeyboard extends BaseKeyboardConstructor<TelegramInlineKeyboa
 		return {
 			inline_keyboard: this
 				.keyboard as TelegramInlineKeyboardMarkupFix["inline_keyboard"],
+			...(this.forceReplyEnabled === undefined
+				? {}
+				: { force_reply: this.forceReplyEnabled }),
 		};
 	}
 }

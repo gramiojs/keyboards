@@ -50,7 +50,7 @@ export type KeyboardHelpers<T> =
 	| KeyboardHelperFilter<T>
 	| KeyboardHelperPattern;
 
-export function chunk<T>(array: T[][], size: number) {
+export function chunk<T>(array: T[][], size: number): T[][] {
 	const flatArray = array.flat();
 	const chunks = [];
 
@@ -61,7 +61,7 @@ export function chunk<T>(array: T[][], size: number) {
 	return chunks;
 }
 
-export function customWrap<T>(array: T[][], fn: ButtonsIterator<T>) {
+export function customWrap<T>(array: T[][], fn: ButtonsIterator<T>): T[][] {
 	const flatArray = array.flat();
 	const chunks = [];
 	let currentChunk = [];
@@ -77,14 +77,14 @@ export function customWrap<T>(array: T[][], fn: ButtonsIterator<T>) {
 	return currentChunk.length ? [...chunks, currentChunk] : chunks;
 }
 
-export function pattern<T>(array: T[][], pattern: number[]) {
+export function pattern<T>(array: T[][], pattern: number[]): T[][] {
 	return customWrap(
 		array,
 		({ row, rowIndex }) => row.length === pattern[rowIndex],
 	);
 }
 
-export function filter<T>(array: T[][], fn: ButtonsIterator<T>) {
+export function filter<T>(array: T[][], fn: ButtonsIterator<T>): T[][] {
 	const chunks = [];
 
 	for (const [rowIndex, row] of array.entries()) {
